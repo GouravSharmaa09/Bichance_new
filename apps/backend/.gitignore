@@ -1,0 +1,69 @@
+.venv/
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+*.DS_Store
+*.sqlite3
+.env
+*.log
+
+# Python virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# VSCode
+.vscode/
+.history/
+
+# Byte-compiled / cache
+.mypy_cache/
+.pytest_cache/
+coverage/
+htmlcov/
+
+# FastAPI static cache (if any)
+staticfiles/
+media/
+
+# Node.js (Next.js frontend)
+apps/frontend/node_modules/
+apps/frontend/.next/
+apps/frontend/out/
+apps/frontend/.env.local
+apps/frontend/.env.development
+apps/frontend/.env.production
+apps/frontend/yarn.lock
+apps/frontend/package-lock.json
+
+# Logs
+logs/
+*.log
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Docker
+*.pid
+docker-compose.override.yml
+
+# PyInstaller
+*.spec
+
+# Editor configs
+.idea/
+*.swp
+
+# Test artifacts
+junit.xml
+*.cover
+*.prof
+
+# Local database backup (optional)
+dump.rdb
+*.bak

@@ -1,0 +1,26 @@
+source .venv/bin/activate
+uvicorn app.main:app --reload
+
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdG9ja3RyYWRlMDAzQGdtYWlsLmNvbSIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NTIwODc1ODV9.bSqo8Aw4wkgFoBlxtA3BYKqGP37mf45mdfxgEIqKDdo",
+"refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdG9ja3RyYWRlMDAzQGdtYWlsLmNvbSIsInR5cGUiOiJyZWZyZXNoIiwianRpIjoiM2MwMzdiOTgtODA5MS00NjZmLWI1YzQtODkyYWI0Y2EyMmQ3IiwiZXhwIjoxNzUyNjQ5MTg1fQ.Sw4pl4sfnPOfmFj2jIDBCwO7CF3yS_zyFuQn5pdo6nQ",
+
+admin:
+
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ5Z2JodXBlc2gwMDNAZ21haWwuY29tIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc1MTkxMjI2NX0.CUgYwuRIqjw9RBsb6gIXh5QZFPjx8-iGFYQ13ac60hY",
+"refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ5Z2JodXBlc2gwMDNAZ21haWwuY29tIiwidHlwZSI6InJlZnJlc2giLCJqdGkiOiI1OTcxMmIwYi1lYzRkLTRmNTktYjMyYS1mYTFjNTliYWIwMzMiLCJleHAiOjE3NTI0NzM4NjV9.wDkPezMLlTpjdvIHuo6ZE961LD-S3AVwTuABEfxmFk8",
+
+MONTHLY=price_1RisNDSGp7YEjcqZBloeFYAC
+QUARTERLY= price_1RisNXSGp7YEjcqZHzL4zJCP
+YEARLY= price_1RisO2SGp7YEjcqZDDccoJsl
+
+<script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+
+<stripe-pricing-table pricing-table-id="prctbl_1RisERSGp7YEjcqZJMv6G2gg"
+publishable-key="pk_live_51OydDmSGp7YEjcqZf4dR33PxCYhbSrXIaPUSsC4NQRVzwRJf6hFz6wrTcr5WWmawybqSpKRl5yrPd1NSacLqYBjv00SMqnqGJG">
+</stripe-pricing-table>
+
+login to manage billing: https://billing.stripe.com/p/login/5kQdRb5f5bkJdCW1RX6sw00
+"email": "stocktrade003@gmail.com",
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdG9ja3RyYWRlMDAzQGdtYWlsLmNvbSIsInR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NTI4ODEyMjV9.Zl7MCspmlPpyJt7xQiMpPSVV0Jz4fKtdgS3FU0XNOoc",
+"refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdG9ja3RyYWRlMDAzQGdtYWlsLmNvbSIsInR5cGUiOiJyZWZyZXNoIiwianRpIjoiNzI2ZjgwZGEtZmI4ZC00MDA0LThiZDAtMDI3MzcxM2I4Zjk3IiwiZXhwIjoxNzUzNDQyODI1fQ.4NtWkKaoBk7u4YdcOaZu2kEBvM7uLLqssMCyFCsP-mU",
+"token_type": "bearer"

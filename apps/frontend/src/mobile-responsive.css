@@ -1,0 +1,407 @@
+/* Mobile Responsive Styles for Bichance */
+
+/* Base mobile-first approach */
+@media (max-width: 768px) {
+  /* Landing Page Mobile */
+  .landing-hero h1 {
+    font-size: 2.5rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .landing-hero p {
+    font-size: 1rem !important;
+    margin-bottom: 2rem !important;
+    padding: 0 1rem !important;
+  }
+  
+  .countdown-display {
+    font-size: 2rem !important;
+    padding: 1rem !important;
+  }
+  
+  .cta-button {
+    font-size: 1rem !important;
+    padding: 1rem 2rem !important;
+    margin: 0 1rem !important;
+  }
+  
+  /* Navigation Mobile */
+  .nav-desktop {
+    display: none !important;
+  }
+  
+  .nav-mobile {
+    display: block !important;
+  }
+  
+  .nav-menu {
+    flex-direction: column !important;
+    position: fixed !important;
+    top: 64px !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: white !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    padding: 1rem !important;
+    transform: translateY(-100%) !important;
+    transition: transform 0.3s ease !important;
+  }
+  
+  .nav-menu.open {
+    transform: translateY(0) !important;
+  }
+  
+  /* Onboarding Mobile */
+  .onboarding-container {
+    padding: 1rem !important;
+    min-height: 100vh !important;
+  }
+  
+  .onboarding-card {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 1.5rem !important;
+    border-radius: 1rem !important;
+  }
+  
+  .onboarding-title {
+    font-size: 1.75rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .onboarding-subtitle {
+    font-size: 0.9rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  /* Progress Bar Mobile */
+  .progress-container {
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .step-indicator {
+    font-size: 0.8rem !important;
+  }
+  
+  /* Form Elements Mobile */
+  .form-input {
+    padding: 1rem !important;
+    font-size: 1rem !important;
+    border-radius: 0.5rem !important;
+  }
+  
+  .form-button {
+    padding: 1rem !important;
+    font-size: 1rem !important;
+    border-radius: 0.5rem !important;
+    width: 100% !important;
+    margin: 0.5rem 0 !important;
+  }
+  
+  .button-group {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+  
+  /* Selection Buttons Mobile */
+  .selection-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+  
+  .selection-button {
+    padding: 1rem !important;
+    font-size: 0.9rem !important;
+    text-align: center !important;
+  }
+  
+  /* Country/City Selection Mobile */
+  .country-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+  
+  .country-card {
+    padding: 1rem !important;
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+  
+  .country-flag {
+    font-size: 2rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .city-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+  
+  /* Personality Quiz Mobile */
+  .question-container {
+    padding: 1rem !important;
+  }
+  
+  .question-text {
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .answer-scale {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+  
+  .scale-button {
+    width: 100% !important;
+    padding: 0.75rem !important;
+    font-size: 0.9rem !important;
+  }
+  
+  /* Dashboard Mobile */
+  .dashboard-nav {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 1rem !important;
+  }
+  
+  .dashboard-nav .nav-links {
+    width: 100% !important;
+    flex-direction: column !important;
+    margin-top: 1rem !important;
+    gap: 0.5rem !important;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  .stats-card {
+    padding: 1.5rem !important;
+  }
+  
+  .quick-actions {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+  
+  .action-button {
+    padding: 1rem !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* Admin Panel Mobile */
+  .admin-layout {
+    flex-direction: column !important;
+  }
+  
+  .admin-sidebar {
+    width: 100% !important;
+    position: static !important;
+    border-right: none !important;
+    border-bottom: 1px solid #e5e7eb !important;
+  }
+  
+  .admin-nav {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    padding: 0.5rem !important;
+  }
+  
+  .admin-nav button {
+    white-space: nowrap !important;
+    min-width: auto !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.8rem !important;
+  }
+  
+  .admin-content {
+    padding: 1rem !important;
+  }
+  
+  /* Table Mobile */
+  .data-table {
+    display: block !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+  }
+  
+  .table-row {
+    display: block !important;
+    border: 1px solid #e5e7eb !important;
+    margin-bottom: 0.5rem !important;
+    border-radius: 0.5rem !important;
+    padding: 1rem !important;
+  }
+  
+  .table-cell {
+    display: block !important;
+    text-align: left !important;
+    border: none !important;
+    padding: 0.25rem 0 !important;
+  }
+  
+  .table-cell:before {
+    content: attr(data-label) ": " !important;
+    font-weight: bold !important;
+    color: #6b7280 !important;
+  }
+  
+  /* Modal Mobile */
+  .modal {
+    margin: 0 !important;
+    max-width: 100% !important;
+    min-height: 100vh !important;
+    border-radius: 0 !important;
+  }
+  
+  .modal-content {
+    padding: 1rem !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+  }
+  
+  /* Toast/Notification Mobile */
+  .toast {
+    left: 1rem !important;
+    right: 1rem !important;
+    max-width: none !important;
+  }
+  
+  /* Sign In/Up Pages Mobile */
+  .auth-container {
+    padding: 1rem !important;
+  }
+  
+  .auth-card {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 1.5rem !important;
+  }
+  
+  .auth-title {
+    font-size: 1.75rem !important;
+  }
+  
+  .auth-subtitle {
+    font-size: 0.9rem !important;
+  }
+  
+  /* Form Layouts Mobile */
+  .form-row {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  
+  .form-group {
+    width: 100% !important;
+  }
+  
+  /* Spacing Utilities Mobile */
+  .mobile-p-4 {
+    padding: 1rem !important;
+  }
+  
+  .mobile-m-2 {
+    margin: 0.5rem !important;
+  }
+  
+  .mobile-text-sm {
+    font-size: 0.875rem !important;
+  }
+  
+  .mobile-text-base {
+    font-size: 1rem !important;
+  }
+  
+  .mobile-text-lg {
+    font-size: 1.125rem !important;
+  }
+  
+  .mobile-text-xl {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media (max-width: 600px) {
+  .landing-hero h1 {
+    font-size: 2rem !important;
+  }
+  
+  .onboarding-card {
+    padding: 1rem !important;
+  }
+  
+  .quick-actions {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .country-grid,
+  .city-grid {
+    gap: 0.5rem !important;
+  }
+}
+
+/* Landscape phone orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+  .onboarding-container {
+    padding: 0.5rem !important;
+  }
+  
+  .onboarding-card {
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+  }
+  
+  .landing-hero {
+    padding: 2rem 1rem !important;
+  }
+}
+
+/* Touch-friendly elements */
+@media (pointer: coarse) {
+  .touch-target {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  
+  .form-input,
+  .selection-button,
+  .form-button {
+    min-height: 48px !important;
+  }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .high-dpi-optimized {
+    image-rendering: -webkit-optimize-contrast !important;
+  }
+}
+
+/* Dark mode support for mobile */
+@media (prefers-color-scheme: dark) {
+  .dark-mode-mobile {
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
+  }
+  
+  .dark-mode-card {
+    background-color: #374151 !important;
+    border-color: #4b5563 !important;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
