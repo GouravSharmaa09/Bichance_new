@@ -2,6 +2,9 @@ import "./App.css";
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./hooks/useAuth";
+import { OnboardingRoute } from "./routes/OnboardingRoute";
+import { OnboardingFlowRoute } from "./routes/OnboardingFlowRoute";
+import { DashboardRoute } from "./routes/DashboardRoute";
 
 // Public Pages
 import LandingPage from "./pages/LandingPage";
@@ -30,6 +33,7 @@ import BookingsPage from "./pages/BookingsPage";
 import SettingsPage from "./pages/SettingsPage";
 import UserProfile from "./pages/UserProfile";
 import OnboardingPage from "./pages/OnboardingPage";
+import OnboardingFlow from "./pages/OnboardingFlow";
 import WelcomePage from "./pages/WelcomePage";
 import SignInPage from "./pages/SignInPage";
 
@@ -50,6 +54,7 @@ import { AdminRoute } from "./routes/AdminRoutes";
 import { AdminPanel } from "./components";
 import SubscriptionSuccess from "./pages/SubscriptionSuccess";
 import SubscriptionCancel from "./pages/SubscriptionCancel";
+import SubscriptionStep from "./pages/SubscriptionStep";
 
 function App() {
   return (
@@ -59,6 +64,8 @@ function App() {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
+            <Route path="/onboarding-welcome" element={<OnboardingPage />} />
+            <Route path="/onboarding-flow" element={<OnboardingFlow />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:id" element={<BlogDetail />} />
@@ -85,6 +92,15 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route
+              path="/subscription-step"
+              element={
+                <PrivateRoute>
+                  <SubscriptionStep />
+                </PrivateRoute>
+              }
+            />
+
             {/* <Route path="/signin" element={<SignInPage />} /> */}
 
             {/* Auth Routes */}
@@ -96,6 +112,7 @@ function App() {
                 </RedirectIfAuthenticated>
               }
             />
+            <Route path="/signin" element={<SignInPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/admin/login" element={<AdminLoginPage />} />
@@ -104,73 +121,73 @@ function App() {
             <Route
               path="/dashboard"
               element={
-                <PrivateRoute>
+                <DashboardRoute>
                   <Dashboard />
-                </PrivateRoute>
+                </DashboardRoute>
               }
             />
             <Route
               path="/dinners"
               element={
-                <PrivateRoute>
+                <DashboardRoute>
                   <DinnersPage />
-                </PrivateRoute>
+                </DashboardRoute>
               }
             />
             <Route
               path="/dinners/:id"
               element={
-                <PrivateRoute>
+                <DashboardRoute>
                   <DinnerDetailsPage />
-                </PrivateRoute>
+                </DashboardRoute>
               }
             />
             <Route
               path="/matches"
               element={
-                <PrivateRoute>
+                <DashboardRoute>
                   <MatchesPage />
-                </PrivateRoute>
+                </DashboardRoute>
               }
             />
             <Route
               path="/bookings"
               element={
-                <PrivateRoute>
+                <DashboardRoute>
                   <BookingsPage />
-                </PrivateRoute>
+                </DashboardRoute>
               }
             />
             <Route
               path="/settings"
               element={
-                <PrivateRoute>
+                <DashboardRoute>
                   <SettingsPage />
-                </PrivateRoute>
+                </DashboardRoute>
               }
             />
             <Route
               path="/profile"
               element={
-                <PrivateRoute>
+                <DashboardRoute>
                   <UserProfile />
-                </PrivateRoute>
+                </DashboardRoute>
               }
             />
             <Route
               path="/onboarding"
               element={
-                <PrivateRoute>
-                  <OnboardingPage />
-                </PrivateRoute>
+                <OnboardingFlowRoute>
+                  <OnboardingFlow />
+                </OnboardingFlowRoute>
               }
             />
             <Route
               path="/welcome"
               element={
-                <PrivateRoute>
+                <DashboardRoute>
                   <WelcomePage />
-                </PrivateRoute>
+                </DashboardRoute>
               }
             />
 

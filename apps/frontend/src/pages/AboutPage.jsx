@@ -73,17 +73,17 @@ export default function AboutPage() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 text-red-600">
+              <h1 className="text-4xl md:text-5xl font-display font-bold mb-6 text-purple-600 tracking-tight">
                 The real distance between you and the people you don’t know<br />
-                is a warm <span className="font-bold text-red-700">&ldquo;Hello.&rdquo;</span>
+                is a warm <span className="font-display font-bold text-purple-700">&ldquo;Hello.&rdquo;</span>
               </h1>
-              <p className="text-lg md:text-xl text-gray-700 mb-8">
+              <p className="text-lg md:text-xl text-gray-700 mb-8 font-body">
                 Yet it feels daunting to take that first step, especially in-person.<br /><br />
-                This is what <span className="font-bold text-red-700">Bichance</span> is all about. We create opportunities for the magic of chance encounters. The conversations you would have missed, the people you wouldn’t have met. Safe moments to interact with people around you so that you can be more involved with the world you live in.<br /><br />
+                This is what <span className="font-heading font-bold text-purple-700">Bichance</span> is all about. We create opportunities for the magic of chance encounters. The conversations you would have missed, the people you wouldn’t have met. Safe moments to interact with people around you so that you can be more involved with the world you live in.<br /><br />
                 Free-fall into social possibilities without digital screens. Open up to the people around you without expectations. Start a conversation, spark a connection. Go out for a dinner with strangers.<br /><br />
-                <span className="text-xl md:text-2xl font-semibold text-red-500">Take a chance, have a seat. And just say,</span>
+                <span className="text-xl md:text-2xl font-heading font-semibold text-purple-500">Take a chance, have a seat. And just say,</span>
               </p>
-              <button className="bg-red-200 hover:bg-black hover:text-white text-red-900 font-bold px-8 py-3 rounded-full shadow transition-all text-lg mt-4" onClick={() => navigate('/auth?mode=signup')}>
+              <button className="bg-purple-200 hover:bg-black hover:text-white text-purple-900 font-bold px-8 py-3 rounded-full shadow transition-all text-lg mt-4" onClick={() => navigate('/auth?mode=signup')}>
                 &quot;HELLO STRANGER&quot;
               </button>
             </motion.div>
@@ -100,10 +100,10 @@ export default function AboutPage() {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4 tracking-tight">
                 Our Values
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto font-body">
                 These core principles guide everything we do and shape the community we're building together.
               </p>
             </motion.div>
@@ -121,10 +121,10 @@ export default function AboutPage() {
                   <div className="flex items-start space-x-4">
                     <div className="text-4xl">{value.icon}</div>
                     <div>
-                      <h3 className="text-xl font-semibold mb-3 text-gray-900">
+                      <h3 className="text-xl font-heading font-semibold mb-3 text-gray-900">
                         {value.title}
                       </h3>
-                      <p className="text-gray-600 leading-relaxed">
+                      <p className="text-gray-600 leading-relaxed font-body">
                         {value.description}
                       </p>
                     </div>
@@ -136,7 +136,7 @@ export default function AboutPage() {
         </section>
 
         {/* Mission Section */}
-        <section className="py-20 bg-gradient-to-r from-red-500 to-red-600">
+        <section className="py-20 bg-gradient-to-r from-purple-500 to-purple-600">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div
               initial={{ y: 50, opacity: 0 }}
@@ -144,7 +144,7 @@ export default function AboutPage() {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6 tracking-tight">
                 Our Mission
               </h2>
               <p className="text-xl text-red-100 mb-8 max-w-4xl mx-auto leading-relaxed">

@@ -32,8 +32,55 @@ export default function CountdownTimer() {
   }, []);
 
   return (
-    <span className="text-2xl font-bold text-red-600">
-      {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
-    </span>
+    <div className="flex items-center justify-center space-x-3">
+      {/* Days */}
+      <div className="flex flex-col items-center">
+        <div className="w-12 h-12 md:w-16 md:h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white/30 shadow-lg">
+          <span className="text-lg md:text-2xl font-bold text-white">
+            {timeLeft.days}
+          </span>
+        </div>
+        <span className="text-white text-sm md:text-base font-medium mt-2">Days</span>
+      </div>
+
+      {/* Separator */}
+      <div className="text-white text-2xl font-bold">:</div>
+
+      {/* Hours */}
+      <div className="flex flex-col items-center">
+        <div className="w-12 h-12 md:w-16 md:h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white/30 shadow-lg">
+          <span className="text-lg md:text-2xl font-bold text-white">
+            {timeLeft.hours.toString().padStart(2, '0')}
+          </span>
+        </div>
+        <span className="text-white text-sm md:text-base font-medium mt-2">Hours</span>
+      </div>
+
+      {/* Separator */}
+      <div className="text-white text-2xl font-bold">:</div>
+
+      {/* Minutes */}
+      <div className="flex flex-col items-center">
+        <div className="w-12 h-12 md:w-16 md:h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white/30 shadow-lg">
+          <span className="text-lg md:text-2xl font-bold text-white">
+            {timeLeft.minutes.toString().padStart(2, '0')}
+          </span>
+        </div>
+        <span className="text-white text-sm md:text-base font-medium mt-2">Minutes</span>
+      </div>
+
+      {/* Separator */}
+      <div className="text-white text-2xl font-bold">:</div>
+
+      {/* Seconds */}
+      <div className="flex flex-col items-center">
+        <div className="w-12 h-12 md:w-16 md:h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white/30 shadow-lg">
+          <span className="text-lg md:text-2xl font-bold text-white">
+            {timeLeft.seconds.toString().padStart(2, '0')}
+          </span>
+        </div>
+        <span className="text-white text-sm md:text-base font-medium mt-2">Seconds</span>
+      </div>
+    </div>
   );
 } 

@@ -104,7 +104,6 @@ const AuthPage = () => {
           dispatch(
             reduxLogin({
               user: data.data.user || {},
-              token: data.data.access_token,
               access_token: data.data.access_token,
               refresh_token: data.data.refresh_token,
               email: email,
@@ -123,31 +122,57 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-2 sm:px-4 w-full bg-[#FEF7ED]" style={{ backgroundImage: 'url(/auth.avif)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-      <motion.div
-        className="bg-white/30 backdrop-blur-lg rounded-2xl shadow-none p-6 sm:p-8 w-full max-w-md"
-        initial={{ y: 40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-      >
-        <div className="flex justify-center mb-4">
-          <img src="/l1.png" alt="Logo" className="h-24 w-auto" />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Back Arrow */}
+      <div className="absolute top-16 left-6 z-50">
+        <button
+          onClick={() => navigate(-1)}
+          className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300"
+        >
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/a.jpg)' }}
+        >
+          <div className="absolute inset-0 bg-black/40"></div>
         </div>
-        <h2 className="text-3xl font-bold text-center text-red-600 mb-6">
-          Sign Up with Email
-        </h2>
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-30 flex flex-col min-h-screen md:items-center">
+        {/* Bottom Section */}
+        <div className="bg-purple-600/60 backdrop-blur-lg rounded-t-3xl md:rounded-b-3xl p-6 md:p-8 mt-auto mx-4 md:max-w-md md:mx-auto md:mt-52">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            {/* Heading */}
+            <h2 className="text-2xl md:text-3xl font-display font-bold text-white text-center md:text-center mb-6 tracking-tight">
+              {step === 1 ? "Sign up With Email" : "Verify OTP"}
+            </h2>
         {step === 1 && (
-          <form onSubmit={e => e.preventDefault()} className="flex flex-col gap-4">
-            <label className="font-semibold text-gray-700">Email Address</label>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-white font-heading font-semibold mb-2">Email Address</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-300 outline-none text-lg"
-              placeholder="Enter your Gmail address"
+                    className="w-full px-4 py-3 rounded-xl border-0 focus:ring-2 focus:ring-purple-300 outline-none text-lg bg-white/10 backdrop-blur-sm text-white placeholder-white/70"
+                    placeholder="Enter your email address"
               required
               disabled={countdown > 0}
             />
-            {/* Slide to Send OTP Button */}
+                </div>
+                
             <SlideToSendOTP
               onSlide={handleSendOtp}
               loading={loading}
@@ -155,29 +180,34 @@ const AuthPage = () => {
               countdown={countdown}
               label="Send OTP"
             />
+                
             {error && (
-              <div className="text-red-600 text-center font-semibold">
+                  <div className="text-red-300 text-center font-medium bg-red-900/20 rounded-lg p-3">
                 {error}
               </div>
             )}
             {success && (
-              <div className="text-green-600 text-center font-semibold">
+                  <div className="text-green-300 text-center font-medium bg-green-900/20 rounded-lg p-3">
                 {success}
+                  </div>
+                )}
               </div>
             )}
-          </form>
-        )}
+
         {step === 2 && (
-          <form onSubmit={handleVerifyOtp} className="flex flex-col gap-4">
-            <label className="font-semibold text-gray-700">Enter OTP</label>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-white font-heading font-semibold mb-2">Enter OTP</label>
             <input
               type="text"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
-              className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-300 outline-none text-lg tracking-widest text-center"
+                    className="w-full px-4 py-3 rounded-xl border-0 focus:ring-2 focus:ring-purple-300 outline-none text-lg bg-white/10 backdrop-blur-sm text-white placeholder-white/70 tracking-widest text-center"
               placeholder="Enter OTP"
               required
             />
+                </div>
+                
             <SlideToSendOTP
               onSlide={handleVerifyOtp}
               loading={loading}
@@ -185,36 +215,40 @@ const AuthPage = () => {
               countdown={0}
               label="Verify OTP"
             />
+                
             {error && (
-              <div className="text-red-600 text-center font-semibold">
+                  <div className="text-red-300 text-center font-medium bg-red-900/20 rounded-lg p-3">
                 {error}
               </div>
             )}
             {success && (
-              <div className="text-green-600 text-center font-semibold">
+                  <div className="text-green-300 text-center font-medium bg-green-900/20 rounded-lg p-3">
                 {success}
               </div>
             )}
+                
             <button
               type="button"
-              className="text-red-500 underline mt-2"
+                  className="text-white/80 underline text-center w-full"
               onClick={() => setStep(1)}
             >
               Change Email
             </button>
-          </form>
-        )}
-      </motion.div>
-      <button
-        className="mt-6 w-full max-w-[140px] mx-auto py-3 rounded-full text-white font-bold text-lg shadow-lg transition-all bg-gradient-to-r from-red-500 to-red-700 hover:bg-black hover:from-black hover:to-black hover:text-white"
-        style={{
-          border: 'none',
-          borderRadius: '9999px',
-        }}
-        onClick={() => navigate('/')}
-      >
-        Go to Home
-      </button>
+              </div>
+            )}
+
+            {/* Legal Text */}
+            <p className="text-white/80 text-sm text-center mt-6 leading-relaxed">
+              By signing up you agree to the{' '}
+              <span className="underline">Terms of Service</span>,{' '}
+              <span className="underline">Privacy Policy</span> and{' '}
+              <span className="underline">Community Guidelines</span>.
+            </p>
+
+
+          </motion.div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -266,7 +300,7 @@ function SlideToSendOTP({ onSlide, loading, disabled, countdown, label }) {
   return (
     <div
       ref={sliderRef}
-      className={`relative w-full h-12 bg-black rounded-full overflow-hidden select-none mt-2 shadow-lg ${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
+      className={`relative w-full h-12 bg-purple-900 rounded-xl overflow-hidden select-none shadow-lg ${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
@@ -277,7 +311,7 @@ function SlideToSendOTP({ onSlide, loading, disabled, countdown, label }) {
       style={{ userSelect: 'none' }}
     >
       <div
-        className="absolute top-0 left-0 h-full bg-gradient-to-r from-red-500 to-red-700 transition-all duration-200"
+        className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-200"
         style={{ width: `${slide}%` }}
       />
       <div
@@ -294,7 +328,7 @@ function SlideToSendOTP({ onSlide, loading, disabled, countdown, label }) {
         )}
       </div>
       <div
-        className="absolute top-1 left-1 h-10 w-10 bg-gradient-to-r from-red-500 to-red-700 rounded-full shadow flex items-center justify-center z-20 transition-transform duration-200"
+        className="absolute top-1 left-1 h-10 w-10 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full shadow flex items-center justify-center z-20 transition-transform duration-200"
         style={{ transform: `translateX(${slide * (sliderRef.current ? sliderRef.current.offsetWidth - 48 : 0) / 100}px)` }}
       >
         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
@@ -302,3 +336,4 @@ function SlideToSendOTP({ onSlide, loading, disabled, countdown, label }) {
     </div>
   );
 }
+

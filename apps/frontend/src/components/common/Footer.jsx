@@ -9,21 +9,21 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between w-full">
           {/* Logo left */}
           <div className="flex-1 flex justify-start mb-8 md:mb-0">
-            <img src="/l1.png" alt="bichance logo" style={{ width: 180, height: 80, objectFit: 'cover', margin: '24px 0 16px 0' }} />
+                         <h1 className="text-3xl font-display font-bold text-purple-800 tracking-tight" style={{ margin: '24px 0 16px 0' }}>Bichance</h1>
           </div>
           {/* Main footer content centered, with border above and below */}
           <div className="flex-1 flex flex-col items-center w-full">
             <div className="border-t border-b border-gray-800 py-8 w-full flex flex-col items-center">
               {/* Centered Links */}
               <div className="flex flex-wrap justify-center gap-6 mb-6">
-                <button onClick={() => navigate('/')} className="text-gray-300 hover:text-white text-sm">Home</button>
-                <button onClick={() => navigate('/about')} className="text-gray-300 hover:text-white text-sm">About</button>
-                <button onClick={() => navigate('/blog')} className="text-gray-300 hover:text-white text-sm">Blog</button>
-                <button onClick={() => navigate('/faq')} className="text-gray-300 hover:text-white text-sm">FAQ</button>
-                <button onClick={() => navigate('/help')} className="text-gray-300 hover:text-white text-sm">Help Center</button>
-                <button onClick={() => navigate('/privacy')} className="text-gray-300 hover:text-white text-sm">Privacy Policy</button>
-                <button onClick={() => navigate('/terms')} className="text-gray-300 hover:text-white text-sm">Terms & Conditions</button>
-                <button onClick={() => navigate('/contact-us')} className="text-gray-300 hover:text-white text-sm">Contact Us</button>
+                                 <button onClick={() => navigate('/')} className="text-gray-300 hover:text-purple-400 text-sm font-heading font-medium transition-all duration-300 hover:scale-105">Home</button>
+                 <button onClick={() => navigate('/about')} className="text-gray-300 hover:text-purple-400 text-sm font-heading font-medium transition-all duration-300 hover:scale-105">About</button>
+                 <button onClick={() => navigate('/blog')} className="text-gray-300 hover:text-purple-400 text-sm font-heading font-medium transition-all duration-300 hover:scale-105">Blog</button>
+                 <button onClick={() => navigate('/faq')} className="text-gray-300 hover:text-purple-400 text-sm font-heading font-medium transition-all duration-300 hover:scale-105">FAQ</button>
+                 <button onClick={() => navigate('/help')} className="text-gray-300 hover:text-purple-400 text-sm font-heading font-medium transition-all duration-300 hover:scale-105">Help Center</button>
+                 <button onClick={() => navigate('/privacy')} className="text-gray-300 hover:text-purple-400 text-sm font-heading font-medium transition-all duration-300 hover:scale-105">Privacy Policy</button>
+                 <button onClick={() => navigate('/terms')} className="text-gray-300 hover:text-purple-400 text-sm font-heading font-medium transition-all duration-300 hover:scale-105">Terms & Conditions</button>
+                 <button onClick={() => navigate('/contact-us')} className="text-gray-300 hover:text-purple-400 text-sm font-heading font-medium transition-all duration-300 hover:scale-105">Contact Us</button>
               </div>
               {/* Store Badges Centered */}
               <div className="flex gap-4 justify-center mb-6">
@@ -77,9 +77,9 @@ const Footer = () => {
               </div>
             </div>
             {/* Copyright */}
-            <div className="text-center text-gray-400 text-xs w-full mt-6">
-              <p>&copy; 2025 All rights reserved. bichance</p>
-              <p className="mt-1 text-gray-400 text-xs">Developed by Gourav Sharma</p>
+            <div className="text-center text-gray-400 w-full mt-6">
+              <p className="text-sm font-body font-medium">&copy; 2025 All rights reserved. <span className="text-purple-300 font-heading font-semibold">bichance</span></p>
+              <p className="mt-1 text-gray-400 text-xs font-body">Developed by <span className="text-purple-300 font-heading font-medium">Gourav Sharma</span></p>
             </div>
           </div>
         </div>

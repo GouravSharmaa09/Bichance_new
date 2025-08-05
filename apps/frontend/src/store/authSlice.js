@@ -2,10 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchWithAuth } from '../lib/fetchWithAuth';
 
 const initialState = {
-  email: null || localStorage.getItem("email"),
-  access_token: null || localStorage.getItem("access_token"),
-  refresh_token: null || localStorage.getItem("refresh_token"),
-  isAuthenticated: false || localStorage.getItem("access_token"),
+  email: localStorage.getItem("email") || null,
+  access_token: localStorage.getItem("access_token") || null,
+  refresh_token: localStorage.getItem("refresh_token") || null,
+  isAuthenticated: !!localStorage.getItem("access_token"),
+  user: null
 };
 
 const authSlice = createSlice({
@@ -19,15 +20,20 @@ const authSlice = createSlice({
         onboarding_complete: action.payload.user?.onboarding_complete ?? false
       };
       state.user = user;
-      state.token = action.payload.token;
+      state.access_token = action.payload.access_token;
+      state.refresh_token = action.payload.refresh_token;
+      state.email = action.payload.email;
       state.isAuthenticated = true;
       localStorage.setItem("access_token", action.payload.access_token);
       localStorage.setItem("refresh_token", action.payload.refresh_token);
-      localStorage.setItem("email", JSON.stringify(action.payload.email));
+      localStorage.setItem("email", action.payload.email);
+      localStorage.setItem("user", JSON.stringify(user));
     },
     logout: (state) => {
       state.user = null;
-      state.token = null;
+      state.access_token = null;
+      state.refresh_token = null;
+      state.email = null;
       state.isAuthenticated = false;
       localStorage.clear();
     },
@@ -41,8 +47,13 @@ const authSlice = createSlice({
       localStorage.setItem("user", JSON.stringify(user));
     },
     setToken: (state, action) => {
-      state.token = action.payload;
+      state.access_token = action.payload;
       state.isAuthenticated = !!action.payload;
+      if (action.payload) {
+        localStorage.setItem("access_token", action.payload);
+      } else {
+        localStorage.removeItem("access_token");
+      }
     },
   },
 });

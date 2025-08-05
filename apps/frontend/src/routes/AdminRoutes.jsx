@@ -1,15 +1,27 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import { useSelector } from "react-redux";
 import { LoadingScreen } from "../components/common/LoadingScreen";
 
 export const AdminRoute = ({ children }) => {
-  const { user, loading } = useAuth();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  // Check for admin token in localStorage
+  const adminToken = localStorage.getItem('adminToken');
+  const adminUser = localStorage.getItem('adminUser');
 
-  if (loading) return <LoadingScreen />;
-  if (!isAuthenticated) return <Navigate to="/auth" replace />;
-  if (user?.role !== "admin") return <Navigate to="/dashboard" replace />;
+  if (!adminToken || !adminUser) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  try {
+    const userData = JSON.parse(adminUser);
+    if (userData.role !== "admin") {
+      localStorage.removeItem('adminToken');
+      localStorage.removeItem('adminUser');
+      return <Navigate to="/admin/login" replace />;
+    }
+  } catch (error) {
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminUser');
+    return <Navigate to="/admin/login" replace />;
+  }
 
   return children;
 };

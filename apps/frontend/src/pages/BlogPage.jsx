@@ -58,14 +58,13 @@ export default function BlogPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-black/30" />
           <div className="relative z-10 text-center w-full">
             <h1
-              className="text-5xl md:text-6xl font-bold italic drop-shadow-lg mb-4"
-              style={{ fontFamily: "'Montserrat', 'Poppins', 'Arial', sans-serif" }}
+              className="text-5xl md:text-6xl font-display font-bold italic drop-shadow-lg mb-4 tracking-tight"
             >
-              <span className="bg-gradient-to-r from-white via-red-500 to-red-700 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-white via-purple-500 to-purple-700 bg-clip-text text-transparent">
                 Blog
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-white italic font-bold drop-shadow-lg" style={{ fontFamily: "'Montserrat', 'Poppins', 'Arial', sans-serif" }}>
+            <p className="text-xl md:text-2xl text-white italic font-heading font-bold drop-shadow-lg">
               Find out the latest news from Bichance
             </p>
           </div>
@@ -77,9 +76,9 @@ export default function BlogPage() {
               <div key={post.id} className="bg-white/40 backdrop-blur-lg rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in overflow-hidden flex flex-col group transform hover:scale-105">
                 <img src={post.image} alt={post.title} className="w-full h-56 object-cover" />
                 <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="text-xl font-bold mb-2 text-red-500 group-hover:underline transition-colors duration-200">{post.title}</h3>
-                  <p className="text-gray-600 mb-4 flex-1 group-hover:text-red-600 transition-colors duration-200">{post.excerpt}</p>
-                  <button onClick={() => navigate(`/blog/${post.id}`, { state: { post } })} className="mt-auto bg-red-500 hover:bg-red-600 text-white font-bold px-6 py-2 rounded-full transition-all">Read More</button>
+                  <h3 className="text-xl font-heading font-bold mb-2 text-purple-500 group-hover:underline transition-colors duration-200">{post.title}</h3>
+                  <p className="text-gray-600 mb-4 flex-1 group-hover:text-purple-600 transition-colors duration-200 font-body">{post.excerpt}</p>
+                  <button onClick={() => navigate(`/blog/${post.id}`, { state: { post } })} className="mt-auto bg-purple-500 hover:bg-purple-600 text-white font-bold px-6 py-2 rounded-full transition-all">Read More</button>
                 </div>
               </div>
             ))}

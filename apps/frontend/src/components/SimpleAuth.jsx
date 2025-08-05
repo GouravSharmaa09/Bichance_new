@@ -59,7 +59,12 @@ export function SimpleAuth({ onAuthSuccess }) {
         localStorage.setItem('user_data', JSON.stringify(data.user));
         toast.success(isLogin ? 'Login successful!' : 'Registration successful!');
         if (!isLogin) {
-          dispatch(reduxLogin({ user: data.user, token: data.access_token, access_token: data.access_token, refresh_token: data.refresh_token, email: data.user.email }));
+          dispatch(reduxLogin({ 
+            user: data.user, 
+            access_token: data.access_token, 
+            refresh_token: data.refresh_token, 
+            email: data.user.email 
+          }));
           navigate('/onboarding');
         } else {
           onAuthSuccess(data.user);
@@ -119,7 +124,12 @@ export function SimpleAuth({ onAuthSuccess }) {
         localStorage.setItem('auth_token', data.data.access_token);
         localStorage.setItem('token', data.data.access_token); // Save as 'token' for dashboard
         setUser({ email, ...data.data }); // <-- set user in context
-        dispatch(reduxLogin({ user: { email, ...data.data }, token: data.data.access_token, access_token: data.data.access_token, refresh_token: data.data.refresh_token, email }));
+        dispatch(reduxLogin({ 
+          user: { email, ...data.data }, 
+          access_token: data.data.access_token, 
+          refresh_token: data.data.refresh_token, 
+          email 
+        }));
         navigate('/onboarding');
       } else {
         const error = await res.json();

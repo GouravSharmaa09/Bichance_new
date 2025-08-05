@@ -461,7 +461,7 @@ export function ExclusiveOnboarding({ onComplete }) {
   const { signUp } = useAuth();
   const { addToWaitlist } = useWaitlist();
 
-  const totalSteps = 8; // Member check, Phone, Country, City, Binary, Personality, Result, Identity, Details, Account, Complete
+  const totalSteps = 9; // Updated: Member check, Phone, Country, City, Binary, Personality, Score Generation, Result, Identity, Details, Account, Complete
 
   const updateFormData = (updates) => {
     setFormData((prev) => ({ ...prev, ...updates }));
@@ -470,10 +470,19 @@ export function ExclusiveOnboarding({ onComplete }) {
   const [compatibilityScore, setCompatibilityScore] = useState(null);
 
   const handleNext = (score) => {
+    console.log("handleNext called with score:", score, "currentStep:", currentStep);
+    
     if (typeof score === "number") {
       setCompatibilityScore(score);
+      // Store the personality score in formData for the score generation step
+      if (currentStep === 4) { // After personality questions
+        console.log("Storing personality score:", score);
+        updateFormData({ personalityScore: score });
+      }
     }
+    
     if (currentStep < totalSteps) {
+      console.log("Moving from step", currentStep, "to step", currentStep + 1);
       setCurrentStep(currentStep + 1);
     } else {
       handleComplete();
@@ -538,7 +547,7 @@ export function ExclusiveOnboarding({ onComplete }) {
   };
 
   const getStepComponent = () => {
-    console.log("Current step:", currentStep);
+    console.log("getStepComponent called with currentStep:", currentStep);
     switch (currentStep) {
       case 1:
         return (
@@ -578,6 +587,15 @@ export function ExclusiveOnboarding({ onComplete }) {
         );
       case 5:
         return (
+          <PersonalityScoreGenerationStep
+            formData={formData}
+            updateFormData={updateFormData}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        );
+      case 6:
+        return (
           <StrangerPossibilityResultStep
             formData={formData}
             score={compatibilityScore}
@@ -585,7 +603,7 @@ export function ExclusiveOnboarding({ onComplete }) {
             onBack={handleBack}
           />
         );
-      case 6:
+      case 7:
         return (
           <IdentityQuestionsStep
             formData={formData}
@@ -594,7 +612,7 @@ export function ExclusiveOnboarding({ onComplete }) {
             onBack={handleBack}
           />
         );
-      case 7:
+      case 8:
         return (
           <UserDetailsStep
             formData={formData}
@@ -603,7 +621,7 @@ export function ExclusiveOnboarding({ onComplete }) {
             onBack={handleBack}
           />
         );
-      case 8:
+      case 9:
         return (
           <CompletionStep
             formData={formData}
@@ -2112,9 +2130,25 @@ function PersonalityQuestionsStep({
   };
 
   // Calculate compatibility score from personality scores
-  const calculateCompatibilityScore = (scores) => {
-    // Always return a score between 91 and 100 for demo
-    return Math.floor(Math.random() * 10) + 91;
+  const calculateCompatibilityScore = (answers) => {
+    // Calculate score based on answers
+    const totalQuestions = ONBOARDING_QUESTIONS.length;
+    const answeredQuestions = Object.keys(answers).length;
+    
+    if (answeredQuestions === 0) {
+      return 90; // Base score
+    }
+    
+    // Calculate score based on answer patterns
+    let score = 90; // Base score
+    
+    // Add points for each answered question (simple scoring)
+    score += (answeredQuestions / totalQuestions) * 10;
+    
+    // Ensure score is between 90-100
+    score = Math.min(100, Math.max(90, Math.floor(score)));
+    
+    return score;
   };
 
   const handleSubmitJourney = async () => {
@@ -2149,7 +2183,9 @@ function PersonalityQuestionsStep({
         answers[currentQuestion.id],
         currentQuestion.question
       );
-      onNext();
+      // Calculate and pass the personality score to the next step
+      const personalityScore = calculateCompatibilityScore(answers);
+      onNext(personalityScore);
     } catch (err) {
       toast.error("Failed to submit journey: " + err.message);
     } finally {
@@ -2269,6 +2305,140 @@ function PersonalityQuestionsStep({
       {/* Place this at the very end of the motion.div, after all question content */}
       <div className="w-full flex justify-center bg-[#FEF7ED] mt-24 pb-4">
         <img src="/QA.png" alt="Dinner conversation illustration" className="w-full max-w-md rounded-xl" />
+      </div>
+    </motion.div>
+  );
+}
+
+// Personality Score Generation Step
+function PersonalityScoreGenerationStep({ formData, updateFormData, onNext, onBack }) {
+  console.log("PersonalityScoreGenerationStep rendered with formData:", formData);
+  
+  const [currentScore, setCurrentScore] = useState(0);
+  const [finalScore, setFinalScore] = useState(0);
+  const [isGenerating, setIsGenerating] = useState(true);
+  const [showNextButton, setShowNextButton] = useState(false);
+
+  // Use the score passed from the previous step or generate a random one
+  useEffect(() => {
+    console.log("PersonalityScoreGenerationStep useEffect triggered");
+    // Get score from formData if available, otherwise generate random
+    const targetScore = formData.personalityScore || Math.floor(Math.random() * 11) + 90; // 90 to 100
+    console.log("Target score:", targetScore);
+    setFinalScore(targetScore);
+    
+    // Animate score from 0 to target
+    let startTime = Date.now();
+    const duration = 2000; // 2 seconds
+    
+    const animateScore = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Use easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const currentValue = Math.floor(targetScore * easeOutQuart);
+      
+      setCurrentScore(currentValue);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animateScore);
+      } else {
+        setCurrentScore(targetScore);
+        setIsGenerating(false);
+        // Show next button after a short delay
+        setTimeout(() => setShowNextButton(true), 500);
+      }
+    };
+    
+    // Start animation after a short delay
+    setTimeout(() => {
+      requestAnimationFrame(animateScore);
+    }, 500);
+  }, []);
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex flex-col w-screen h-screen min-h-screen bg-[#FEF7ED] shadow-none p-0 border-0 border-black/20 overflow-y-auto"
+      style={{ borderRadius: 0 }}
+    >
+      <div className="w-full pt-8 pb-2 bg-[#FEF7ED] sticky top-0 z-40">
+        <button
+          onClick={onBack}
+          className="absolute left-4 top-4 text-black hover:text-gray-700 text-2xl font-bold focus:outline-none"
+          aria-label="Back"
+        >
+          <span className="fi fi-rs-arrow-alt-circle-left"></span>
+        </button>
+        <div className="italic text-lg md:text-xl font-serif w-full text-center mt-2 mb-1">
+          GENERATING <span className="not-italic">PERSONALITY SCORE</span>
+        </div>
+        <div className="w-full text-center text-gray-700 mb-2">
+          Analyzing your responses...
+        </div>
+      </div>
+
+      <div className="flex-1 flex flex-col items-center justify-center px-6">
+        <div className="text-center">
+          {/* Score Display */}
+          <div className="mb-8">
+            <div className="text-8xl md:text-9xl font-bold text-black mb-4">
+              {currentScore}
+            </div>
+            <div className="text-2xl md:text-3xl font-semibold text-gray-700">
+              / 100
+            </div>
+          </div>
+
+          {/* Loading Animation */}
+          {isGenerating && (
+            <div className="mb-8">
+              <div className="flex justify-center space-x-2">
+                <div className="w-3 h-3 bg-black rounded-full animate-bounce"></div>
+                <div className="w-3 h-3 bg-black rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                <div className="w-3 h-3 bg-black rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              </div>
+              <div className="text-lg text-gray-600 mt-4">
+                Calculating your personality score...
+              </div>
+            </div>
+          )}
+
+          {/* Completion Message */}
+          {!isGenerating && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-8"
+            >
+              <div className="text-xl text-green-600 font-semibold mb-2">
+                ✓ Score Generated Successfully!
+              </div>
+              <div className="text-lg text-gray-600">
+                Your personality score is ready
+              </div>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Next Button */}
+        {showNextButton && (
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            onClick={() => onNext(finalScore)}
+            className="w-full max-w-md bg-gradient-to-r from-red-500 to-red-700 text-white rounded-full py-4 px-12 text-lg font-bold shadow-lg hover:from-red-600 hover:to-red-800 transition-all duration-300"
+          >
+            Next
+          </motion.button>
+        )}
+      </div>
+
+      {/* Bottom Image */}
+      <div className="w-full flex justify-center bg-[#FEF7ED] mt-8 pb-4">
+        <img src="/QA.png" alt="Personality analysis illustration" className="w-full max-w-md rounded-xl" />
       </div>
     </motion.div>
   );

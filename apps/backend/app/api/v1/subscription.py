@@ -15,14 +15,37 @@ router = APIRouter(prefix="/subscription", tags=["Subscription"])
 stripe.api_key = settings.STRIPE_SECRET_KEY
 class CheckoutSessionRequest(BaseModel):
     price_id: str  # from frontend
+    is_development: bool = False  # development flag from frontend
 
 
 @router.post("/create-checkout-session", dependencies=[Depends(get_current_user)])
 def create_checkout_session(
     data: CheckoutSessionRequest,
-    user: User = Depends(get_current_user)
+    user: User = Depends(get_current_user),
+    request: Request = None
 ):
     try:
+        # TEMPORARY FIX: Force localhost for development
+        frontend_url = "http://localhost:3000"
+        
+        # Original logic (commented out for now)
+        # if data.is_development:
+        #     frontend_url = "http://localhost:3000"
+        # elif request and "localhost" in request.headers.get("origin", ""):
+        #     frontend_url = "http://localhost:3000"
+        # else:
+        #     # Fallback: if FRONTEND_URL contains vercel.app, use localhost for development
+        #     if "vercel.app" in settings.FRONTEND_URL and (data.is_development or (request and "localhost" in request.headers.get("origin", ""))):
+        #         frontend_url = "http://localhost:3000"
+        #     else:
+        #         frontend_url = settings.FRONTEND_URL
+        
+        # Debug logging
+        print(f"Creating checkout session with frontend_url: {frontend_url}")
+        print(f"Development flag: {data.is_development}")
+        print(f"Request origin: {request.headers.get('origin') if request else 'No request'}")
+        print(f"Settings FRONTEND_URL: {settings.FRONTEND_URL}")
+        
         checkout_session = stripe.checkout.Session.create(
             
             payment_method_types=["card"],
@@ -37,8 +60,8 @@ def create_checkout_session(
                 "user_id": str(user.id),
                 "email": user.email
             },
-            success_url=f"{settings.FRONTEND_URL}/subscription/success?session_id={{CHECKOUT_SESSION_ID}}",
-            cancel_url=f"{settings.FRONTEND_URL}/subscription/cancel",
+            success_url=f"{frontend_url}/subscription/success?session_id={{CHECKOUT_SESSION_ID}}",
+            cancel_url=f"{frontend_url}/subscription/cancel",
         )
         return {"session_url": checkout_session.url}
     except Exception as e:

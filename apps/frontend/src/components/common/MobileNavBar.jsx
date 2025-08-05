@@ -26,7 +26,7 @@ export default function MobileNavBar() {
         <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex">
           <div className="bg-white w-64 h-full shadow-xl p-6 flex flex-col animate-slideInLeft relative">
             <button
-              className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-2xl"
+              className="absolute top-3 right-3 text-gray-500 hover:text-purple-500 text-2xl"
               onClick={() => setOpen(false)}
               aria-label="Close navigation menu"
             >
@@ -37,7 +37,7 @@ export default function MobileNavBar() {
                 <Link
                   key={link.to}
                   to={link.to}
-                  className="flex items-center gap-3 text-lg font-semibold text-gray-800 hover:text-red-600"
+                  className="flex items-center gap-3 text-lg font-semibold text-gray-800 hover:text-purple-600"
                   onClick={() => setOpen(false)}
                 >
                   <FontAwesomeIcon icon={link.icon} className="text-xl" />
