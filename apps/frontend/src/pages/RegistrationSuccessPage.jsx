@@ -16,7 +16,7 @@ const RegistrationSuccessPage = () => {
   }, [user, navigate]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center fade-in-up">
+    <div className="min-h-screen bg-white flex items-center justify-center fade-in-up">
       <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8 text-center">
         <div className="text-green-500 text-6xl mb-4">✓</div>
         <h1 className="text-2xl font-bold text-red-600 mb-4">Registration Successful!</h1>

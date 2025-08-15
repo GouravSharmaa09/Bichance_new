@@ -6,7 +6,7 @@ const ContactUsPage = () => {
   return (
     <>
       <MainNav />
-      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#FEF7ED]" style={{ marginTop: '0px' }}>
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-white" style={{ marginTop: '0px' }}>
         <div className="max-w-2xl w-full mx-auto p-8 bg-white rounded-2xl shadow-2xl flex flex-col items-center animate-fade-in-up" style={{ marginTop: '32px', marginBottom: '32px' }}>
           <h1 className="text-4xl font-display font-bold mb-2 text-purple-600 text-center tracking-tight">Contact Us</h1>
           <p className="text-gray-600 text-center mb-6 font-body">We'd love to hear from you! Fill out the form below or reach out via email or WhatsApp.</p>

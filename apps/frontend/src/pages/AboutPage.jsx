@@ -63,9 +63,9 @@ export default function AboutPage() {
   return (
     <>
       <MainNav />
-      <div style={{ padding: 0 }} className="bg-[#FEF7ED]">
+      <div style={{ padding: 0 }} className="bg-white">
         {/* Hero Section */}
-        <section className="pt-24 pb-16 bg-[#FEF7ED] fade-in-up">
+        <section className="pt-24 pb-16 bg-white fade-in-up">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div 
               className="text-center max-w-4xl mx-auto"
@@ -91,7 +91,7 @@ export default function AboutPage() {
         </section>
 
         {/* Values Section */}
-        <section className="py-20 bg-[#FEF7ED]">
+        <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div 
               className="text-center mb-16"

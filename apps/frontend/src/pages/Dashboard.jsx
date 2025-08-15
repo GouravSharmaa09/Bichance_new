@@ -384,6 +384,24 @@ export default function Dashboard() {
     country: "",
   });
   
+  const helpSteps = [
+    { title: "Getting Started", content: "Welcome to Bichance! This guide will help you understand the basics of using our platform. Navigate through the sections below to find what you need." },
+    { title: "Profile Management", content: "Learn how to update your personal information, set preferences, and manage your profile visibility." },
+    { title: "Booking Dinners", content: "Discover how to browse available dinners, opt-in for events, and confirm your reservations." },
+    { title: "Managing Matches", content: "Understand how to view your dinner matches, connect with other participants, and manage your connections." },
+    { title: "Subscription & Payments", content: "Information on managing your subscription, payment methods, and billing details." },
+    { title: "Troubleshooting", content: "Common issues and their solutions. If you can't find your answer here, please contact support." },
+    { title: "Contact Support", content: "How to reach our support team for further assistance. We're here to help!" }
+  ];
+
+  const guideSteps = [
+    { title: "Step 1: Create Your Profile", content: "Start by creating a detailed profile. The more information you provide, the better matches you'll get!" },
+    { title: "Step 2: Explore Dinners", content: "Browse through a variety of dinner events. You can filter by cuisine, budget, and location." },
+    { title: "Step 3: Opt-in for a Dinner", content: "Found a dinner you like? Opt-in to join. Make sure your meal preferences are set!" },
+    { title: "Step 4: Confirm Your Presence", content: "Once you're matched, confirm your presence. This helps us ensure a smooth experience for everyone." },
+    { title: "Step 5: Connect with Matches", content: "After the dinner, you can connect with people you met. Build new friendships and networks!" }
+  ];
+  
   const userCity = profile.current_city || profile.city || "";
   const userCountry = profile.current_country || profile.country || "";
   
@@ -459,6 +477,8 @@ export default function Dashboard() {
   const [hasActiveSubscription, setHasActiveSubscription] = useState(false);
   const [optedInDinners, setOptedInDinners] = useState([]);
   const [showLocationModal, setShowLocationModal] = useState(false);
+  const [showDetailedInfo, setShowDetailedInfo] = useState(false);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   const [locationInput, setLocationInput] = useState({
     city: profile.city || profile.current_city || "",
@@ -475,9 +495,12 @@ export default function Dashboard() {
   const [isManagingDinner, setIsManagingDinner] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showHelpModal, setShowHelpModal] = useState(false);
+  const [helpStep, setHelpStep] = useState(1);
+  const [showGuideModal, setShowGuideModal] = useState(false);
+  const [guideStep, setGuideStep] = useState(1);
 
   // Reset booking flow when switching away from Home
   React.useEffect(() => {
@@ -1491,11 +1514,6 @@ export default function Dashboard() {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-            <img
-              src="/l1.png"
-            alt="Bichance Logo"
-            className="w-24 h-24 mx-auto mb-6"
-          />
           <h1 className="text-3xl font-display font-bold text-white mb-2 tracking-tight">
             Welcome to Bichance
           </h1>
@@ -1513,100 +1531,29 @@ export default function Dashboard() {
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <img src="/l1.png" alt="Logo" className="h-8" />
+              <div className="flex items-center">
               <div>
-                <h1 className="text-lg font-heading font-bold text-gray-900">
-                  Welcome back, {profile.name || "User"}!
+                  <h1 className="text-2xl font-display font-bold text-purple-800 tracking-tight">
+                    Bichance
                 </h1>
+                  <h2 className="text-lg font-heading font-bold text-gray-900">
+                    Welcome back, {profile.name || "User"}!
+                  </h2>
                 <p className="text-sm text-gray-600">
                   {profileLoading ? (
                     "Loading location..."
+                    ) : profile.current_city && profile.current_country ? (
+                      `${profile.current_city}, ${profile.current_country}`
+                    ) : profile.city && profile.country ? (
+                      `${profile.city}, ${profile.country}`
                   ) : (
-                    `${profile.current_city || profile.city || "Your City"}, ${profile.current_country || profile.country || "Your Country"}`
+                      "Location not set"
                   )}
                 </p>
                             </div>
                       </div>
-            <div className="flex items-center space-x-3">
-              <div className="relative">
-                <button 
-                  onClick={() => setShowNotifications(!showNotifications)}
-                  className="p-2 text-gray-600 hover:text-purple-600 transition-colors relative"
-                >
-                  <FontAwesomeIcon icon={faBell} className="text-lg" />
-                  {notifications.length > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      {notifications.length}
-                    </span>
-                  )}
-                </button>
-                
-                {/* Notification Dropdown */}
-                {showNotifications && (
-                  <div className="notification-dropdown absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-96 overflow-y-auto">
-                    <div className="p-4 border-b border-gray-200">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
-                        {notifications.length > 0 && (
-                          <button
-                            onClick={clearAllNotifications}
-                            className="text-sm text-purple-600 hover:text-purple-700"
-                          >
-                            Clear All
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                    <div className="p-2">
-                      {notifications.length === 0 ? (
-                        <div className="text-center py-8 text-gray-500">
-                          <FontAwesomeIcon icon={faBell} className="text-2xl mb-2 text-gray-300" />
-                          <p>No notifications</p>
-                        </div>
-                      ) : (
-                        <div className="space-y-2">
-                          {notifications.map((notification) => (
-                            <div
-                              key={notification.id}
-                              className={`p-3 rounded-lg border-l-4 ${
-                                notification.type === 'success' 
-                                  ? 'border-green-500 bg-green-50' 
-                                  : notification.type === 'warning'
-                                  ? 'border-orange-500 bg-orange-50'
-                                  : 'border-blue-500 bg-blue-50'
-                              }`}
-                            >
-                              <div className="flex items-start justify-between">
-                                <div className="flex-1">
-                                  <p className="text-sm text-gray-900">{notification.message}</p>
-                                  <p className="text-xs text-gray-500 mt-1">
-                                    {new Date(notification.timestamp).toLocaleString()}
-                                  </p>
-                                </div>
-                                <button
-                                  onClick={() => clearNotification(notification.id)}
-                                  className="ml-2 text-gray-400 hover:text-gray-600"
-                                >
-                                  ×
-                                </button>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-                <div className="flex items-center space-x-3">
-                  <button
-                    onClick={handleLogout}
-                    className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors font-medium text-sm"
-                  >
-                    Logout
-                  </button>
-                </div>
-              </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -2194,110 +2141,224 @@ export default function Dashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-6">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0">
-                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">Profile</h2>
+              <div className="bg-white rounded-2xl shadow-sm p-6">
+
+
+                {/* Profile Avatar and Name with Edit Button */}
+                <div className="text-center mb-6">
+                  <div className="relative inline-block">
+                    <div className="w-24 h-24 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mb-4 mx-auto shadow-lg">
+                      {profile.name ? profile.name.charAt(0).toUpperCase() : "U"}
+                    </div>
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">{profile.name || "User"}</h2>
+                  <p className="text-gray-600 mb-1">{profile.email || "user@email.com"}</p>
+                  <p className="text-sm text-purple-600 font-medium">
+                    {profile.current_city || profile.city || "Your City"}, {profile.current_country || profile.country || "Your Country"}
+                  </p>
+                </div>
+
+                {/* Buttons for Edit Profile, Logout, and Notifications */}
+                <div className="flex flex-col space-y-3 mt-6">
                   <button
-                    onClick={() => setShowEditProfile(true)}
-                    className="bg-purple-600 hover:bg-purple-700 text-white px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto"
+                    onClick={() => setIsEditingProfile(!isEditingProfile)}
+                    className="w-48 py-2 px-4 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-700 text-white shadow-md hover:from-purple-700 hover:to-indigo-800 hover:text-white transition-all duration-300 ease-in-out transform hover:scale-105 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75 mx-auto"
                   >
-                    Edit
+                    {isEditingProfile ? "Hide Profile Info" : "Edit Profile"}
+                  </button>
+                  <button
+                    onClick={() => setShowNotificationModal(true)}
+                    className="w-48 py-2 px-4 rounded-lg text-purple-600 bg-white border border-purple-600 hover:bg-purple-600 hover:text-white hover:border-purple-700 transition-all duration-300 ease-in-out transform hover:scale-105 text-sm font-semibold mx-auto focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75"
+                  >
+                    Notifications
+                  </button>
+                  <button
+                    onClick={() => setShowHelpModal(true)}
+                    className="w-48 py-2 px-4 rounded-lg text-purple-600 bg-white border border-purple-600 hover:bg-purple-600 hover:text-white hover:border-purple-700 transition-all duration-300 ease-in-out transform hover:scale-105 text-sm font-semibold mx-auto focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75"
+                  >
+                    Help Center
+                  </button>
+                  <button
+                    onClick={() => setShowGuideModal(true)}
+                    className="w-48 py-2 px-4 rounded-lg text-purple-600 bg-white border border-purple-600 hover:bg-purple-600 hover:text-white hover:border-purple-700 transition-all duration-300 ease-in-out transform hover:scale-105 text-sm font-semibold mx-auto focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75"
+                  >
+                    Guide
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="w-48 py-2 px-4 rounded-lg text-purple-600 bg-white border border-purple-600 hover:bg-purple-600 hover:text-white hover:border-purple-700 transition-all duration-300 ease-in-out transform hover:scale-105 text-sm font-semibold mx-auto focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75"
+                  >
+                    Logout
                   </button>
                 </div>
-                <div className="space-y-3 sm:space-y-4">
+
+                {/* Direct Editable Profile Information */}
+                {isEditingProfile && (
+                <div className="space-y-4">
                   {/* Basic Information */}
-                  <div className="border-b border-gray-200 pb-4">
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3">Basic Information</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                      <div>
-                        <label className="text-xs sm:text-sm font-medium text-gray-700">Name</label>
-                        <p className="text-sm sm:text-base text-gray-900">{profile.name || "Not set"}</p>
-                      </div>
-                      <div>
-                        <label className="text-xs sm:text-sm font-medium text-gray-700">Email</label>
-                        <p className="text-sm sm:text-base text-gray-900">{profile.email || "Not set"}</p>
-                      </div>
-                      <div>
-                        <label className="text-xs sm:text-sm font-medium text-gray-700">Mobile</label>
-                        <p className="text-sm sm:text-base text-gray-900">{profile.mobile || "Not set"}</p>
-                      </div>
-                      <div>
-                        <label className="text-xs sm:text-sm font-medium text-gray-700">Date of Birth</label>
-                        <p className="text-sm sm:text-base text-gray-900">{profile.dob ? new Date(profile.dob).toLocaleDateString() : "Not set"}</p>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Personal Details */}
-                  <div className="border-b border-gray-200 pb-4">
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3">Personal Details</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                      <div>
-                        <label className="text-xs sm:text-sm font-medium text-gray-700">Gender</label>
-                        <p className="text-sm sm:text-base text-gray-900 capitalize">{profile.gender || "Not set"}</p>
-                      </div>
-                      <div>
-                        <label className="text-xs sm:text-sm font-medium text-gray-700">Relationship Status</label>
-                        <p className="text-sm sm:text-base text-gray-900 capitalize">{profile.relationship_status || "Not set"}</p>
-                      </div>
-                      <div>
-                        <label className="text-xs sm:text-sm font-medium text-gray-700">Children</label>
-                        <p className="text-sm sm:text-base text-gray-900">{profile.children ? "Yes" : "No"}</p>
-                      </div>
-                      <div>
-                        <label className="text-xs sm:text-sm font-medium text-gray-700">Profession</label>
-                        <p className="text-sm sm:text-base text-gray-900">{profile.profession || "Not set"}</p>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Location Information */}
-                  <div className="border-b border-gray-200 pb-4">
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3">Location</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                      <div>
-                        <label className="text-xs sm:text-sm font-medium text-gray-700">Current City</label>
-                        <p className="text-sm sm:text-base text-gray-900">{profile.current_city || profile.city || "Not set"}</p>
-                      </div>
-                      <div>
-                        <label className="text-xs sm:text-sm font-medium text-gray-700">Current Country</label>
-                        <p className="text-sm sm:text-base text-gray-900">{profile.current_country || profile.country || "Not set"}</p>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Account Information */}
-                  <div className="border-b border-gray-200 pb-4">
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3">Account Information</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                      <div>
-                        <label className="text-xs sm:text-sm font-medium text-gray-700">Subscription Status</label>
-                        <p className={`text-xs sm:text-sm font-medium ${profile.subscription_status === 'active' ? 'text-green-600' : 'text-gray-600'}`}>
-                          {profile.subscription_status ? profile.subscription_status.charAt(0).toUpperCase() + profile.subscription_status.slice(1) : "Not set"}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Personality Answers */}
-                  {profile.personality_answers && profile.personality_answers.length > 0 && (
-                    <div>
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 space-y-2 sm:space-y-0">
-                        <h3 className="text-base sm:text-lg font-semibold text-gray-800">Personality Questions</h3>
+                  <div className="bg-white rounded-xl p-4 border border-gray-200">
+                    <h3 className="font-semibold text-gray-800 mb-3 flex items-center justify-between">
+                      <span>Basic Information</span>
                         <button
-                          onClick={() => setIsEditingPersonality(!isEditingPersonality)}
-                          className="text-xs sm:text-sm text-purple-600 hover:text-purple-700 font-medium w-full sm:w-auto"
+                          onClick={() => handleProfileSave()}
+                          className="text-xs bg-purple-600 text-white px-2 py-1 rounded hover:bg-purple-700"
                         >
-                          {isEditingPersonality ? "Cancel" : "Edit"}
+                          Save
                         </button>
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Name</label>
+                        {isEditingProfile ? (
+                          <input
+                            type="text"
+                            value={editProfile.name || ""}
+                            onChange={(e) => setEditProfile(prev => ({ ...prev, name: e.target.value }))}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                          />
+                        ) : (
+                          <p className="text-sm text-gray-900">{profile.name || "Not set"}</p>
+                        )}
                       </div>
-                      <div className="space-y-2 sm:space-y-3 max-h-60 overflow-y-auto">
-                        {(isEditingPersonality ? editProfile.personality_answers : profile.personality_answers).map((answer, index) => (
-                          <div key={index} className="p-2 sm:p-3 bg-gray-50 rounded-lg">
-                            <p className="text-xs sm:text-sm text-gray-700 mb-2">{answer.question}</p>
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                              <span className="text-xs text-gray-500">Trait: {answer.trait}</span>
-                              {isEditingPersonality ? (
-                                <div className="flex space-x-2">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Email</label>
+                        {isEditingProfile ? (
+                          <input
+                            type="email"
+                            value={editProfile.email || ""}
+                            onChange={(e) => setEditProfile(prev => ({ ...prev, email: e.target.value }))}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                          />
+                        ) : (
+                          <p className="text-sm text-gray-900">{profile.email || "Not set"}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Mobile</label>
+                        {isEditingProfile ? (
+                          <input
+                            type="tel"
+                            value={editProfile.mobile || ""}
+                            onChange={(e) => setEditProfile(prev => ({ ...prev, mobile: e.target.value }))}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                          />
+                        ) : (
+                          <p className="text-sm text-gray-900">{profile.mobile || "Not set"}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Date of Birth</label>
+                        {isEditingProfile ? (
+                          <input
+                            type="date"
+                            value={editProfile.dob || ""}
+                            onChange={(e) => setEditProfile(prev => ({ ...prev, dob: e.target.value }))}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                          />
+                        ) : (
+                          <p className="text-sm text-gray-900">{profile.dob ? new Date(profile.dob).toLocaleDateString() : "Not set"}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Identity Information */}
+                  <div className="bg-white rounded-xl p-4 border border-gray-200">
+                    <h3 className="font-semibold text-gray-800 mb-3">Identity Information</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Gender</label>
+                        {isEditingProfile ? (
+                          <select
+                            value={editProfile.gender || ""}
+                            onChange={(e) => setEditProfile(prev => ({ ...prev, gender: e.target.value }))}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                          >
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                          </select>
+                        ) : (
+                          <p className="text-sm text-gray-900 capitalize">{profile.gender || "Not set"}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Relationship Status</label>
+                        {isEditingProfile ? (
+                          <select
+                            value={editProfile.relationship_status || ""}
+                            onChange={(e) => setEditProfile(prev => ({ ...prev, relationship_status: e.target.value }))}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                          >
+                            <option value="">Select Status</option>
+                            <option value="single">Single</option>
+                            <option value="married">Married</option>
+                            <option value="divorced">Divorced</option>
+                            <option value="widowed">Widowed</option>
+                          </select>
+                        ) : (
+                          <p className="text-sm text-gray-900 capitalize">{profile.relationship_status || "Not set"}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Children</label>
+                        {isEditingProfile ? (
+                          <select
+                            value={editProfile.children || ""}
+                            onChange={(e) => setEditProfile(prev => ({ ...prev, children: e.target.value }))}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                          >
+                            <option value="">Select</option>
+                            <option value="0">No Children</option>
+                            <option value="1">1 Child</option>
+                            <option value="2">2 Children</option>
+                            <option value="3">3 Children</option>
+                            <option value="4+">4+ Children</option>
+                          </select>
+                        ) : (
+                          <p className="text-sm text-gray-900">{profile.children ? "Yes" : "No"}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Profession</label>
+                        {isEditingProfile ? (
+                          <input
+                            type="text"
+                            value={editProfile.profession || ""}
+                            onChange={(e) => setEditProfile(prev => ({ ...prev, profession: e.target.value }))}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                          />
+                        ) : (
+                          <p className="text-sm text-gray-900">{profile.profession || "Not set"}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Personality Information */}
+                  {profile.personality_answers && profile.personality_answers.length > 0 && (
+                    <div className="bg-white rounded-xl p-4 border border-gray-200">
+                      <h3 className="font-semibold text-gray-800 mb-3 flex items-center justify-between">
+                        <span>Personality Information</span>
+                        <button
+                            onClick={() => handlePersonalitySave()}
+                            className="text-xs bg-purple-600 text-white px-2 py-1 rounded hover:bg-purple-700"
+                        >
+                            Save
+                        </button>
+                      </h3>
+                      <div className="space-y-2 max-h-40 overflow-y-auto">
+                        {(isEditingProfile ? editProfile.personality_answers : profile.personality_answers).map((answer, index) => (
+                          <div key={index} className="p-2 bg-gray-50 rounded border text-xs">
+                            <p className="text-gray-700 mb-1">{answer.question}</p>
+                            <div className="flex items-center justify-between">
+                              <span className="text-gray-500">Trait: {answer.trait}</span>
+                              {isEditingProfile ? (
+                                <div className="flex space-x-1">
                                   <button
                                     onClick={() => handlePersonalityAnswerChange(index, "0")}
-                                    className={`px-2 sm:px-3 py-1 text-xs rounded-full border ${
+                                    className={`px-2 py-1 text-xs rounded border ${
                                       answer.answer === "0" 
                                         ? "bg-red-500 text-white border-red-500" 
                                         : "bg-white text-gray-600 border-gray-300 hover:border-red-300"
@@ -2307,7 +2368,7 @@ export default function Dashboard() {
                                   </button>
                                   <button
                                     onClick={() => handlePersonalityAnswerChange(index, "1")}
-                                    className={`px-2 sm:px-3 py-1 text-xs rounded-full border ${
+                                    className={`px-2 py-1 text-xs rounded border ${
                                       answer.answer === "1" 
                                         ? "bg-green-500 text-white border-green-500" 
                                         : "bg-white text-gray-600 border-gray-300 hover:border-green-300"
@@ -2317,33 +2378,20 @@ export default function Dashboard() {
                                   </button>
                                 </div>
                               ) : (
-                                <span className="text-xs sm:text-sm font-medium text-purple-600">
-                                  Answer: {answer.answer === "0" ? "Disagree" : "Agree"}
+                                <span className="text-xs font-medium text-purple-600">
+                                  {answer.answer === "0" ? "Disagree" : "Agree"}
                                 </span>
                               )}
                             </div>
                           </div>
                         ))}
                       </div>
-                      {isEditingPersonality && (
-                        <div className="mt-4 flex justify-end space-x-3">
-                          <button
-                            onClick={() => setIsEditingPersonality(false)}
-                            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-700 border border-gray-300 rounded-lg"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            onClick={handlePersonalitySave}
-                            className="px-4 py-2 text-sm bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-                          >
-                            Save Changes
-                          </button>
                         </div>
                       )}
                     </div>
-                  )}
-                </div>
+                )}
+                {/* Dinner Preferences */}
+
               </div>
             </motion.div>
           )}
@@ -2547,6 +2595,255 @@ export default function Dashboard() {
                         </div>
                 </div>
               )}
+
+      {/* Detailed Information Modal */}
+      {showDetailedInfo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-4">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-sm sm:max-w-md max-h-[90vh] overflow-y-auto">
+            <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">Detailed Information</h3>
+            <div className="space-y-3 sm:space-y-4">
+              {/* Basic Information */}
+              <div className="bg-gray-50 rounded-lg p-3">
+                <h4 className="font-semibold text-gray-800 mb-2 text-sm">Basic Information</h4>
+                <div className="grid grid-cols-1 gap-2 text-xs">
+                  <div>
+                    <label className="font-medium text-gray-700">Mobile</label>
+                    <p className="text-gray-900">{profile.mobile || "Not set"}</p>
+                  </div>
+                  <div>
+                    <label className="font-medium text-gray-700">Date of Birth</label>
+                    <p className="text-gray-900">{profile.dob ? new Date(profile.dob).toLocaleDateString() : "Not set"}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Personal Details */}
+              <div className="bg-gray-50 rounded-lg p-3">
+                <h4 className="font-semibold text-gray-800 mb-2 text-sm">Personal Details</h4>
+                <div className="grid grid-cols-1 gap-2 text-xs">
+                  <div>
+                    <label className="font-medium text-gray-700">Gender</label>
+                    <p className="text-gray-900 capitalize">{profile.gender || "Not set"}</p>
+                  </div>
+                  <div>
+                    <label className="font-medium text-gray-700">Relationship</label>
+                    <p className="text-gray-900 capitalize">{profile.relationship_status || "Not set"}</p>
+                  </div>
+                  <div>
+                    <label className="font-medium text-gray-700">Children</label>
+                    <p className="text-gray-900">{profile.children ? "Yes" : "No"}</p>
+                  </div>
+                  <div>
+                    <label className="font-medium text-gray-700">Profession</label>
+                    <p className="text-gray-900">{profile.profession || "Not set"}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Personality Answers */}
+              {profile.personality_answers && profile.personality_answers.length > 0 && (
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="font-semibold text-gray-800 text-sm">Personality Questions</h4>
+                    <button
+                      onClick={() => setIsEditingPersonality(!isEditingPersonality)}
+                      className="text-xs text-purple-600 hover:text-purple-700 font-medium"
+                    >
+                      {isEditingPersonality ? "Cancel" : "Edit"}
+                    </button>
+                  </div>
+                  <div className="space-y-1 max-h-32 overflow-y-auto">
+                    {(isEditingPersonality ? editProfile.personality_answers : profile.personality_answers).map((answer, index) => (
+                      <div key={index} className="p-2 bg-white rounded border text-xs">
+                        <p className="text-gray-700 mb-1">{answer.question}</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-500">Trait: {answer.trait}</span>
+                          {isEditingPersonality ? (
+                            <div className="flex space-x-1">
+                              <button
+                                onClick={() => handlePersonalityAnswerChange(index, "0")}
+                                className={`px-2 py-1 text-xs rounded border ${
+                                  answer.answer === "0" 
+                                    ? "bg-red-500 text-white border-red-500" 
+                                    : "bg-white text-gray-600 border-gray-300 hover:border-red-300"
+                                }`}
+                              >
+                                Disagree
+                              </button>
+                              <button
+                                onClick={() => handlePersonalityAnswerChange(index, "1")}
+                                className={`px-2 py-1 text-xs rounded border ${
+                                  answer.answer === "1" 
+                                    ? "bg-green-500 text-white border-green-500" 
+                                    : "bg-white text-gray-600 border-gray-300 hover:border-green-300"
+                                }`}
+                              >
+                                Agree
+                              </button>
+                            </div>
+                          ) : (
+                            <span className="text-xs font-medium text-purple-600">
+                              {answer.answer === "0" ? "Disagree" : "Agree"}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {isEditingPersonality && (
+                    <div className="mt-2 flex justify-end space-x-2">
+                      <button
+                        onClick={() => setIsEditingPersonality(false)}
+                        className="px-2 py-1 text-xs text-gray-600 hover:text-gray-700 border border-gray-300 rounded"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handlePersonalitySave}
+                        className="px-2 py-1 text-xs bg-purple-600 text-white rounded hover:bg-purple-700"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 mt-4 sm:mt-6">
+              <button
+                onClick={() => setShowDetailedInfo(false)}
+                className="flex-1 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm sm:text-base"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Help Modal */}
+      {showHelpModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-4">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-sm sm:max-w-md max-h-[90vh] overflow-y-auto">
+            <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">Help Center</h3>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="border-b pb-3 last:border-b-0 last:pb-0">
+                <h4 className="font-semibold text-gray-800 text-sm mb-1">{helpSteps[helpStep - 1].title}</h4>
+                <p className="text-gray-600 text-xs">{helpSteps[helpStep - 1].content}</p>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 mt-4 sm:mt-6">
+              {helpStep > 1 && (
+                <button
+                  onClick={() => setHelpStep(prev => prev - 1)}
+                  className="flex-1 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm sm:text-base"
+                >
+                  Previous
+                </button>
+              )}
+              {helpStep < helpSteps.length && (
+                <button
+                  onClick={() => setHelpStep(prev => prev + 1)}
+                  className="flex-1 px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm sm:text-base"
+                >
+                  Next
+                </button>
+              )}
+              <button
+                onClick={() => { setShowHelpModal(false); setHelpStep(1); }}
+                className="flex-1 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm sm:text-base"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Guide Modal */}
+      {showGuideModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-4">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-sm sm:max-w-md max-h-[90vh] overflow-y-auto">
+            <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">Guide</h3>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="border-b pb-3 last:border-b-0 last:pb-0">
+                <h4 className="font-semibold text-gray-800 text-sm mb-1">{guideSteps[guideStep - 1].title}</h4>
+                <p className="text-gray-600 text-xs">{guideSteps[guideStep - 1].content}</p>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 mt-4 sm:mt-6">
+              {guideStep > 1 && (
+                <button
+                  onClick={() => setGuideStep(prev => prev - 1)}
+                  className="flex-1 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm sm:text-base"
+                >
+                  Previous
+                </button>
+              )}
+              {guideStep < guideSteps.length && (
+                <button
+                  onClick={() => setGuideStep(prev => prev + 1)}
+                  className="flex-1 px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm sm:text-base"
+                >
+                  Next
+                </button>
+              )}
+              <button
+                onClick={() => { setShowGuideModal(false); setGuideStep(1); }}
+                className="flex-1 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm sm:text-base"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Account Modal */}
+      {showDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-4">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-sm sm:max-w-md max-h-[90vh] overflow-y-auto">
+            <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">Delete Account</h3>
+            <div className="space-y-3 sm:space-y-4">
+              <p className="text-gray-700">Are you sure you want to delete your account?</p>
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 mt-4 sm:mt-6">
+                <button
+                  onClick={() => setShowDelete(false)}
+                  className="flex-1 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm sm:text-base"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDeleteAccount}
+                  className="flex-1 px-3 sm:px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm sm:text-base"
+                >
+                  Delete Account
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Account Modal */}
+      {deleteSuccess && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-4">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-sm sm:max-w-md max-h-[90vh] overflow-y-auto">
+            <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">Delete Account</h3>
+            <div className="space-y-3 sm:space-y-4">
+              <p className="text-gray-700">Your account has been deleted successfully.</p>
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 mt-4 sm:mt-6">
+                <button
+                  onClick={() => setDeleteSuccess(false)}
+                  className="flex-1 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm sm:text-base"
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
 </div>
     </>

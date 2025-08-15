@@ -511,9 +511,8 @@ const LandingPage = () => {
         overscrollBehavior: 'auto'
       }}
     >
-      {/* Top Bar */}
-      <div className="bg-purple-800 text-white py-2 relative overflow-hidden">
-        {/* Animated background pattern */}
+      {/* Top Bar - Removed for mobile optimization */}
+      {/* <div className="bg-purple-800 text-white py-2 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <motion.div
             className="absolute top-0 left-0 w-full h-full"
@@ -532,22 +531,17 @@ const LandingPage = () => {
         </div>
         
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm relative z-10">
-          <div className="flex items-center space-x-6 mb-2 md:mb-0">
-            <motion.div 
-              className="flex items-center space-x-2"
+          <motion.button 
+            onClick={() => navigate('/onboarding-welcome')}
+            className="bg-white text-purple-800 px-4 py-2 rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2"
               whileHover={{ scale: 1.05 }}
-            >
-              <Phone className="w-4 h-4" />
-              <span>+1 234 567 8900</span>
-            </motion.div>
-            <motion.div 
-              className="flex items-center space-x-2"
-              whileHover={{ scale: 1.05 }}
-            >
-              <Mail className="w-4 h-4" />
-              <span>hello@bichance.com</span>
-            </motion.div>
-          </div>
+            whileTap={{ scale: 0.95 }}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            Book Table
+          </motion.button>
           <motion.div 
             className="flex items-center space-x-2"
             whileHover={{ scale: 1.05 }}
@@ -556,11 +550,11 @@ const LandingPage = () => {
             <span>Every Wednesday • 7:00 PM</span>
           </motion.div>
         </div>
-      </div>
+      </div> */}
 
         {/* Navigation */}
         <motion.nav 
-        className="bg-white shadow-lg sticky top-0 z-50"
+        className="bg-white shadow-lg sticky top-0 z-50 !pt-0 !mt-0"
           initial={{ y: -100 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -671,7 +665,7 @@ const LandingPage = () => {
         </motion.nav>
         
             {/* Hero Section with Sliding Background */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
         {/* Sliding Background Videos */}
         <div className="absolute inset-0">
           {heroVideos.map((video, index) => (
@@ -746,7 +740,7 @@ const LandingPage = () => {
           />
         </div>
         
-        <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 text-center mt-[-50px]">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -781,13 +775,9 @@ const LandingPage = () => {
               Book your seat now and meet 5 strangers over dinner, all matched by our AI personality algorithm.
             </motion.p>
             
-            <div className="mb-8">
-              <CountdownTimer />
-            </div>
-            
             <motion.button
               onClick={handleJoinNow}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-12 py-4 rounded-full text-xl font-bold shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 flex items-center gap-3 mx-auto relative overflow-hidden group"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-12 py-4 rounded-full text-xl font-bold shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 flex items-center gap-3 mx-auto relative overflow-hidden group mb-8"
               variants={fadeInUp}
               whileHover={{ y: -5, scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -806,11 +796,20 @@ const LandingPage = () => {
               <span className="relative z-10">Book Your Table Now</span>
               <ArrowRight className="w-6 h-6 relative z-10 group-hover:translate-x-1 transition-transform" />
             </motion.button>
+            
+            <p className="text-xl md:text-2xl text-purple-100 font-bold mb-4">
+              Next Dinner In:
+            </p>
+            
+            <div className="mb-8">
+              <CountdownTimer />
+            </div>
+            
           </motion.div>
         </div>
         
         {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:flex space-x-3">
           {heroVideos.map((_, index) => (
             <motion.button
               key={index}
@@ -1210,16 +1209,16 @@ const LandingPage = () => {
         </section>
 
         {/* Map Section */}
-        <div className="w-full bg-purple-50 pt-12 pb-2">
+        <div className="w-full bg-white pt-12 pb-2">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 text-center mb-2 tracking-tight">Explore <span className="text-purple-600 font-heading">Weekly dinners</span></h2>
           <h3 className="text-2xl md:text-3xl font-heading font-semibold text-purple-600 text-center mb-6">all over the world</h3>
         </div>
-        <section className="w-full bg-purple-50 py-0 m-0">
+        <section className="w-full bg-white py-0 m-0">
           <MapSection />
         </section>
 
         {/* How We Select Our Restaurants Section */}
-        <section className="py-16 bg-[#FEF7ED]">
+        <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-3xl md:text-4xl font-display font-semibold text-gray-900 mb-12 tracking-tight text-center">How we select our <span className='italic font-display'>restaurants</span></h1>
             <p className="text-lg text-gray-700 text-center mb-10 font-body">We handpick restaurants using carefully tailored criteria to guarantee you the finest dining experiences.</p>
@@ -1239,42 +1238,42 @@ const LandingPage = () => {
               </div>
               {/* Card 1 */}
               <div 
-                className="min-w-[80vw] max-w-xs snap-center bg-[#FEF7ED] rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-0 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200"
+                className="min-w-[80vw] max-w-xs snap-center bg-white rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-0 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200"
                 onClick={(e) => handleCardTouch(restaurantSelectRef, 0, e)}
               >
                 <img src="https://i.pinimg.com/736x/f2/f1/f6/f2f1f608ecd50a1d2e1356b4c5e744d3.jpg" alt="Selection" className="w-full h-64 object-cover rounded-t-2xl" />
                 <div className="w-full flex flex-col items-center -mt-6 pb-6">
-                  <div className="bg-pink-300 rounded-full px-4 py-1 flex items-center mb-2 shadow border border-pink-400">
+                  <div className="bg-purple-500 rounded-full px-4 py-1 flex items-center mb-2 shadow border border-purple-600">
                     <span className="text-white font-bold mr-2">1</span>
-                    <span className="text-pink-900 font-semibold">A wide selection to match your budget</span>
+                    <span className="text-white font-semibold">A wide selection to match your budget</span>
                   </div>
                   <p className="text-gray-700 text-center px-4">Many options, friendly to your wallet.</p>
                 </div>
               </div>
               {/* Card 2 */}
               <div 
-                className="min-w-[80vw] max-w-xs snap-center bg-[#FEF7ED] rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-0 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200"
+                className="min-w-[80vw] max-w-xs snap-center bg-white rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-0 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200"
                 onClick={(e) => handleCardTouch(restaurantSelectRef, 1, e)}
               >
                 <img src="https://t4.ftcdn.net/jpg/06/42/41/35/360_F_642413519_HQjYt0mNSg2k11Es5tQq50iebfFoMgDm.jpg" alt="Dietary" className="w-full h-64 object-cover rounded-t-2xl" />
                 <div className="w-full flex flex-col items-center -mt-6 pb-6">
-                  <div className="bg-yellow-300 rounded-full px-4 py-1 flex items-center mb-2 shadow border border-yellow-400">
+                  <div className="bg-purple-600 rounded-full px-4 py-1 flex items-center mb-2 shadow border border-purple-700">
                     <span className="text-white font-bold mr-2">2</span>
-                    <span className="text-yellow-900 font-semibold">Options to fit your dietary choices</span>
+                    <span className="text-white font-semibold">Options to fit your dietary choices</span>
                   </div>
                   <p className="text-gray-700 text-center px-4">Satisfying every palate, one dish at a time!</p>
                 </div>
               </div>
               {/* Card 3 */}
               <div 
-                className="min-w-[80vw] max-w-xs snap-center bg-[#FEF7ED] rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-0 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200"
+                className="min-w-[80vw] max-w-xs snap-center bg-white rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-0 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200"
                 onClick={(e) => handleCardTouch(restaurantSelectRef, 2, e)}
               >
                 <img src="https://img.freepik.com/free-photo/young-happy-couple-toasting-with-beer-celebrating-while-enjoying-lunch-with-their-friends-pub_637285-4097.jpg?semt=ais_hybrid&w=740" alt="Top Rated" className="w-full h-64 object-cover rounded-t-2xl" />
                 <div className="w-full flex flex-col items-center -mt-6 pb-6">
-                  <div className="bg-teal-400 rounded-full px-4 py-1 flex items-center mb-2 shadow border border-teal-500">
+                  <div className="bg-purple-700 rounded-full px-4 py-1 flex items-center mb-2 shadow border border-purple-800">
                     <span className="text-white font-bold mr-2">3</span>
-                    <span className="text-teal-900 font-semibold">Top Rated restaurants only</span>
+                    <span className="text-white font-semibold">Top Rated restaurants only</span>
                   </div>
                   <p className="text-gray-700 text-center px-4">Handpicked and user-approved thanks to feedback.</p>
                 </div>
@@ -1283,47 +1282,47 @@ const LandingPage = () => {
             {/* Desktop: grid as before */}
             <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Card 1 */}
-              <div className="bg-[#FEF7ED] rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-0 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200">
+              <div className="bg-white rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-0 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200">
                 <img src="https://i.pinimg.com/736x/f2/f1/f6/f2f1f608ecd50a1d2e1356b4c5e744d3.jpg" alt="Selection" className="w-full h-64 object-cover rounded-t-2xl" />
                 <div className="w-full flex flex-col items-center -mt-6 pb-6">
-                  <div className="bg-pink-300 rounded-full px-4 py-1 flex items-center mb-2 shadow border border-pink-400">
+                  <div className="bg-purple-500 rounded-full px-4 py-1 flex items-center mb-2 shadow border border-purple-600">
                     <span className="text-white font-bold mr-2">1</span>
-                    <span className="text-pink-900 font-semibold">A wide selection to match your budget</span>
+                    <span className="text-white font-semibold">A wide selection to match your budget</span>
                   </div>
                   <p className="text-gray-700 text-center px-4">Many options, friendly to your wallet.</p>
                 </div>
               </div>
               {/* Card 2 */}
-              <div className="bg-[#FEF7ED] rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-0 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200">
+              <div className="bg-white rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-0 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200">
                 <img src="https://t4.ftcdn.net/jpg/06/42/41/35/360_F_642413519_HQjYt0mNSg2k11Es5tQq50iebfFoMgDm.jpg" alt="Dietary" className="w-full h-64 object-cover rounded-t-2xl" />
                 <div className="w-full flex flex-col items-center -mt-6 pb-6">
-                  <div className="bg-yellow-300 rounded-full px-4 py-1 flex items-center mb-2 shadow border border-yellow-400">
+                  <div className="bg-purple-600 rounded-full px-4 py-1 flex items-center mb-2 shadow border border-purple-700">
                     <span className="text-white font-bold mr-2">2</span>
-                    <span className="text-yellow-900 font-semibold">Options to fit your dietary choices</span>
+                    <span className="text-white font-semibold">Options to fit your dietary choices</span>
                   </div>
                   <p className="text-gray-700 text-center px-4">Satisfying every palate, one dish at a time!</p>
                 </div>
               </div>
               {/* Card 3 */}
-              <div className="bg-[#FEF7ED] rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-0 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200">
+              <div className="bg-white rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-0 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200">
                 <img src="https://img.freepik.com/free-photo/young-happy-couple-toasting-with-beer-celebrating-while-enjoying-lunch-with-their-friends-pub_637285-4097.jpg?semt=ais_hybrid&w=740" alt="Top Rated" className="w-full h-64 object-cover rounded-t-2xl" />
                 <div className="w-full flex flex-col items-center -mt-6 pb-6">
-                  <div className="bg-teal-400 rounded-full px-4 py-1 flex items-center mb-2 shadow border border-teal-500">
+                  <div className="bg-purple-700 rounded-full px-4 py-1 flex items-center mb-2 shadow border border-purple-800">
                     <span className="text-white font-bold mr-2">3</span>
-                    <span className="text-teal-900 font-semibold">Top Rated restaurants only</span>
+                    <span className="text-white font-semibold">Top Rated restaurants only</span>
                   </div>
                   <p className="text-gray-700 text-center px-4">Handpicked and user-approved thanks to feedback.</p>
                 </div>
               </div>
             </div>
             <div className="flex justify-center mt-10">
-              <button className="bg-pink-400 hover:bg-pink-500 text-white font-bold px-8 py-3 rounded-full shadow transition-all text-lg" onClick={() => navigate('/auth')}>See Our Restaurants in Your City</button>
+              <button className="bg-white text-purple-800 px-8 py-3 rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-300 border border-purple-200 hover:border-purple-300" onClick={() => navigate('/auth')}>See Our Restaurants in Your City</button>
             </div>
           </div>
         </section>
 
         {/* After-Dinner Drinks & Icebreaker Games Section */}
-        <section className="py-16 bg-[#FEF7ED]">
+        <section className="py-16 bg-gray-50">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-10 justify-center items-stretch">
             {/* After-Dinner Drinks Card */}
             <div className="flex-1 bg-white rounded-2xl shadow hover:shadow-2xl transition-all duration-300 p-8 flex flex-col items-center group cursor-pointer transform hover:scale-105 border border-gray-200">
@@ -1343,7 +1342,7 @@ const LandingPage = () => {
         </section>
 
         {/* Testimonials Section */}
-        <section className="py-20 bg-[#FEF7ED]">
+        <section className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div 
               className="text-center mb-16"

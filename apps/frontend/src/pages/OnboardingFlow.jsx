@@ -256,12 +256,34 @@ const OnboardingFlow = () => {
           question: questionText
         })).unwrap();
         
-        // Auto-advance for select-type questions
-        setTimeout(() => {
-          if (currentIdentityIndex < identityQuestions.length - 1) {
-            dispatch(setCurrentIdentityIndex(currentIdentityIndex + 1));
-          }
-        }, 1000); // 1 second delay to show the checkmark
+        // Special logic for relationship_status question
+        if (field === 'relationship_status') {
+          setTimeout(() => {
+            if (value === 'single') {
+              // Skip children question for single users
+              // Find the index of the children question
+              const childrenIndex = identityQuestions.findIndex(q => q.id === 'children');
+              if (childrenIndex !== -1 && currentIdentityIndex < childrenIndex) {
+                // Skip to the question after children
+                dispatch(setCurrentIdentityIndex(childrenIndex + 1));
+              } else if (currentIdentityIndex < identityQuestions.length - 1) {
+                dispatch(setCurrentIdentityIndex(currentIdentityIndex + 1));
+              }
+            } else {
+              // Normal progression for non-single users
+              if (currentIdentityIndex < identityQuestions.length - 1) {
+                dispatch(setCurrentIdentityIndex(currentIdentityIndex + 1));
+              }
+            }
+          }, 1000); // 1 second delay to show the checkmark
+        } else {
+          // Auto-advance for other select-type questions
+          setTimeout(() => {
+            if (currentIdentityIndex < identityQuestions.length - 1) {
+              dispatch(setCurrentIdentityIndex(currentIdentityIndex + 1));
+            }
+          }, 1000); // 1 second delay to show the checkmark
+        }
       } catch (error) {
         console.error('Error saving identity answer:', error);
       }
@@ -355,8 +377,13 @@ const OnboardingFlow = () => {
   };
 
   const canProceedIdentity = () => {
+    // Check if user is single
+    const isSingle = formData.relationship_status === 'single';
+    
+    // For single users, skip children question
     const hasAllFields = formData.name !== '' && formData.mobile !== '' && formData.gender !== '' && 
-           formData.relationship_status !== '' && formData.children !== '' && 
+           formData.relationship_status !== '' && 
+           (isSingle ? true : formData.children !== '') && 
            formData.profession !== '' && formData.dob !== '';
     
     // For DOB, also check if age is valid (18+)
@@ -377,7 +404,7 @@ const OnboardingFlow = () => {
           // Save country data
           try {
             await dispatch(saveJourneyData({
-              question_key: 'country',
+              question_key: 'current_country',
               answer: formData.country,
               question: 'Selected Country'
             })).unwrap();
@@ -394,7 +421,7 @@ const OnboardingFlow = () => {
           // Save city data
           try {
             await dispatch(saveJourneyData({
-              question_key: 'city',
+              question_key: 'current_city',
               answer: formData.city,
               question: 'Selected City'
             })).unwrap();
@@ -431,22 +458,28 @@ const OnboardingFlow = () => {
       try {
         console.log('Onboarding completed:', formData);
         
-        // Save location data to users/onboarding endpoint
-        await fetchWithAuth(`${API_BASE_URL}/api/v1/users/onboarding`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            country: formData.country,
-            city: formData.city
-          }),
-        });
+        // Removed: Save location data to users/onboarding endpoint - now handled by saveJourneyData earlier
+        // await fetchWithAuth(`${API_BASE_URL}/api/v1/users/onboarding`, {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({
+        //     current_country: formData.country,
+        //     current_city: formData.city,
+        //     country: formData.country,
+        //     city: formData.city
+        //   }),
+        // });
 
-        console.log('Onboarding data saved successfully');
-        navigate('/dashboard');
+        console.log('Onboarding data saved successfully (via saveJourneyData)');
+        
+        // Add a small delay to ensure data is saved before navigating
+        setTimeout(() => {
+          navigate('/dashboard', { state: { refreshProfile: true } });
+        }, 500);
       } catch (error) {
         console.error('Error saving onboarding data:', error);
         // Still navigate to dashboard even if API fails
-        navigate('/dashboard');
+        navigate('/dashboard', { state: { refreshProfile: true } });
       } finally {
         dispatch(setLoading(false));
       }
@@ -726,7 +759,15 @@ const OnboardingFlow = () => {
                 {/* Question Progress at Top */}
                 <div className="text-center mb-6">
                   <p className="text-gray-600 text-sm font-medium">
-                    Question {currentIdentityIndex + 1} of {identityQuestions.length}
+                    Question {currentIdentityIndex + 1} of {(() => {
+                      // Calculate total questions excluding children for single users
+                      const isSingle = formData.relationship_status === 'single';
+                      const childrenIndex = identityQuestions.findIndex(q => q.id === 'children');
+                      if (isSingle && childrenIndex !== -1) {
+                        return identityQuestions.length - 1;
+                      }
+                      return identityQuestions.length;
+                    })()}
                   </p>
                   <p className="text-purple-600 text-xs mt-1">
                     Click an answer to continue automatically
@@ -759,7 +800,13 @@ const OnboardingFlow = () => {
                         }
                       }
                     }}>
-                      {identityQuestions.map((_, index) => {
+                      {identityQuestions.map((question, index) => {
+                        // Skip children question for single users
+                        const isSingle = formData.relationship_status === 'single';
+                        if (isSingle && question.id === 'children') {
+                          return null;
+                        }
+                        
                         // Only show 3 circles: previous, current, next
                         const shouldShow = index >= Math.max(0, currentIdentityIndex - 1) && 
                                          index <= Math.min(identityQuestions.length - 1, currentIdentityIndex + 1);
@@ -917,16 +964,10 @@ const OnboardingFlow = () => {
          <div 
            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
            style={{ 
-             backgroundImage: currentStep === 2 || currentStep === 3 || currentStep === 4
-               ? 'url(/qabg.jpg)' 
-               : 'url(/bgp.jpg)' 
+             backgroundImage: 'url(/bgp.jpg)' 
            }}
          >
-           <div className={`absolute inset-0 ${
-             currentStep === 2 || currentStep === 3 || currentStep === 4
-               ? 'bg-gradient-to-b from-purple-900/80 via-purple-800/70 to-purple-900/90' 
-               : 'bg-black/40'
-           }`}></div>
+           <div className="absolute inset-0 bg-black/40"></div>
          </div>
 
                  {/* Main Content */}
@@ -965,15 +1006,6 @@ const OnboardingFlow = () => {
                 : 'md:mb-8'
             }`}
            style={{
-             backgroundImage: currentStep === 2 || currentStep === 3 || currentStep === 4
-                ? 'url(/newqa.png)'
-               : 'none',
-             backgroundPosition: currentStep === 2 || currentStep === 3 || currentStep === 4
-               ? 'bottom 0 center'
-               : 'initial',
-             backgroundSize: currentStep === 2 || currentStep === 3 || currentStep === 4
-               ? 'contain'
-               : 'initial',
              height: currentStep === 2 || currentStep === 3 || currentStep === 4 ? '100vh' : 'auto',
              zIndex: currentStep === 2 || currentStep === 3 || currentStep === 4 ? '40' : 'auto'
            }}>
@@ -1030,12 +1062,7 @@ const OnboardingFlow = () => {
                <div className="absolute inset-0 bg-black/40"></div>
              </div>
            )}
-           {(currentStep === 2 || currentStep === 3 || currentStep === 4) && (
-             <div 
-               className="absolute bottom-16 left-0 right-0 h-64 bg-contain bg-no-repeat bg-bottom"
-               style={{ backgroundImage: 'url(/newqa.png)' }}
-             ></div>
-           )}
+
           
          <motion.div
            key={currentStep}

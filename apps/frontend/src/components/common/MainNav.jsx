@@ -15,57 +15,7 @@ const MainNav = () => {
   return (
     <>
       {/* Top Bar */}
-      <div className="bg-purple-800 text-white py-2 relative overflow-hidden">
-        {/* Animated background pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <motion.div
-            className="absolute top-0 left-0 w-full h-full"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            }}
-            animate={{
-              x: [0, -30, 0],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm relative z-10">
-          <div className="flex items-center space-x-6 mb-2 md:mb-0">
-            <motion.div 
-              className="flex items-center space-x-2"
-              whileHover={{ scale: 1.05 }}
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-              <span className="font-body font-medium">+1 234 567 8900</span>
-            </motion.div>
-            <motion.div 
-              className="flex items-center space-x-2"
-              whileHover={{ scale: 1.05 }}
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              <span className="font-body font-medium">hello@bichance.com</span>
-            </motion.div>
-          </div>
-          <motion.div 
-            className="flex items-center space-x-2"
-            whileHover={{ scale: 1.05 }}
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span className="font-heading font-medium">Every Wednesday • 7:00 PM</span>
-          </motion.div>
-        </div>
-      </div>
+      {/* Removed the purple div with book table button and time */}
 
       {/* Navigation */}
       <motion.nav 

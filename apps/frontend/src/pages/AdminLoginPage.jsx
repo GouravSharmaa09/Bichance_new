@@ -93,7 +93,7 @@ const AdminLoginPage = () => {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Animated background elements */}
@@ -212,7 +212,7 @@ const AdminLoginPage = () => {
                   }`}
                   placeholder="Enter your password"
                 />
-                <button
+          <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
@@ -222,7 +222,7 @@ const AdminLoginPage = () => {
                   ) : (
                     <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
                   )}
-                </button>
+          </button>
                 {errors.password && (
                   <motion.div
                     className="absolute right-12 top-1/2 transform -translate-y-1/2"

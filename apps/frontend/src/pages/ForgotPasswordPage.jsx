@@ -5,7 +5,7 @@ const ForgotPasswordPage = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="min-h-screen bg-white flex items-center justify-center">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-4">Forgot Password Page</h1>
         <button onClick={() => navigate('/')} className="text-blue-600 hover:text-blue-800">

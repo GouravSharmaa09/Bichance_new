@@ -211,38 +211,38 @@ const AdminPanel = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            {/* Navigation Tabs */}
+        {/* Navigation Tabs */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-6">
-              <div className="flex border-b border-gray-200">
-                {[
+          <div className="flex border-b border-gray-200">
+            {[
                   { id: 'overview', label: 'Overview', icon: BarChart3 },
                   { id: 'dinners', label: 'Dinners', icon: Utensils },
                   { id: 'users', label: 'Users', icon: Users },
                   { id: 'restaurants', label: 'Restaurants', icon: Building2 },
                   { id: 'settings', label: 'Settings', icon: Settings }
-                ].map((tab) => (
+            ].map((tab) => (
                   <motion.button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center space-x-2 px-6 py-4 text-sm font-medium transition-all duration-200 ${
-                      activeTab === tab.id
+                  activeTab === tab.id
                         ? 'text-purple-600 border-b-2 border-purple-600 bg-purple-50'
-                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-                    }`}
+                    : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                  >
+              >
                     <tab.icon className="w-4 h-4" />
                     <span>{tab.label}</span>
                   </motion.button>
-                ))}
-              </div>
-            </div>
+            ))}
+          </div>
+        </div>
 
-            {/* Content Area */}
+        {/* Content Area */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              {activeTab === 'overview' && (
-                <div>
+          {activeTab === 'overview' && (
+            <div>
                   <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold text-gray-800">Dashboard Overview</h2>
                     <motion.button
@@ -294,16 +294,16 @@ const AdminPanel = () => {
                           >
                             <div className="p-2 bg-purple-100 rounded-lg">
                               <activity.icon className="w-4 h-4 text-purple-600" />
-                            </div>
+                </div>
                             <div className="flex-1">
                               <p className="text-sm font-medium text-gray-800">{activity.message}</p>
                               <p className="text-xs text-gray-500">{activity.time}</p>
-                            </div>
+                </div>
                           </motion.div>
                         ))}
-                      </div>
-                    </div>
-                  </div>
+                </div>
+                </div>
+              </div>
                 </div>
               )}
 
@@ -427,15 +427,15 @@ const AdminPanel = () => {
                        </div>
                      </div>
                    )}
-                 </div>
-               )}
+            </div>
+          )}
 
-              {activeTab === 'users' && (
-                <div>
+          {activeTab === 'users' && (
+            <div>
                   <h2 className="text-xl font-semibold text-gray-800 mb-4">User Management</h2>
-                  <p className="text-gray-600">User management functionality will be implemented here.</p>
-                </div>
-              )}
+              <p className="text-gray-600">User management functionality will be implemented here.</p>
+            </div>
+          )}
 
               {activeTab === 'restaurants' && (
                 <div>
@@ -444,12 +444,12 @@ const AdminPanel = () => {
                 </div>
               )}
 
-              {activeTab === 'settings' && (
-                <div>
+          {activeTab === 'settings' && (
+            <div>
                   <h2 className="text-xl font-semibold text-gray-800 mb-4">System Settings</h2>
-                  <p className="text-gray-600">System settings and configuration options will be available here.</p>
-                </div>
-              )}
+              <p className="text-gray-600">System settings and configuration options will be available here.</p>
+            </div>
+          )}
             </div>
           </div>
 
@@ -617,4 +617,4 @@ const AdminPanel = () => {
   );
 };
 
-export default AdminPanel; 
+export default AdminPanel;

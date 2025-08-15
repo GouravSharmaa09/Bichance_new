@@ -270,13 +270,85 @@ body {
     margin: 0 1rem !important;
   }
   
-  /* Navigation Mobile */
+  /* Navigation Mobile - Remove top padding */
   .nav-desktop {
     display: none !important;
   }
   
   .nav-mobile {
     display: block !important;
+  }
+  
+  /* Remove top padding from navigation on mobile */
+  nav.sticky {
+    top: 0 !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  
+  /* Ensure navigation sticks to the very top on mobile */
+  nav.bg-white.shadow-lg.sticky.top-0 {
+    top: 0 !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  
+  /* Remove any safe area padding on mobile */
+  @supports (padding: max(0px)) {
+    nav.sticky {
+      padding-top: 0 !important;
+      padding-top: env(safe-area-inset-top, 0) !important;
+    }
+  }
+  
+  /* Landing page specific navigation - no top padding */
+  .landing-page nav {
+    top: 0 !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  
+  /* Ensure all navigation elements stick to the very top */
+  nav.bg-white.shadow-lg.sticky.top-0.z-50 {
+    top: 0 !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  
+  /* Remove any browser default padding */
+  body {
+    padding-top: 0 !important;
+  }
+  
+  /* Ensure viewport starts from the very top */
+  html {
+    padding-top: 0 !important;
+  }
+  
+  /* Comprehensive mobile navigation fix - no top padding */
+  @media (max-width: 768px) {
+    /* Target the specific navigation class used in LandingPage */
+    nav.bg-white.shadow-lg.sticky.top-0.z-50,
+    nav.sticky,
+    .sticky.top-0 {
+      top: 0 !important;
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+      transform: translateY(0) !important;
+    }
+    
+    /* Remove any safe area insets */
+    nav {
+      padding-top: 0 !important;
+      padding-top: env(safe-area-inset-top, 0) !important;
+      margin-top: 0 !important;
+    }
+    
+    /* Ensure body and html have no top padding */
+    body, html {
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+    }
   }
   
   .nav-menu {

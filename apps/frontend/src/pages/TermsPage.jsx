@@ -6,7 +6,7 @@ export default function TermsPage() {
   return (
     <>
       <MainNav />
-      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#FEF7ED]" style={{ marginTop: '0px' }}>
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-white" style={{ marginTop: '0px' }}>
         <h1 className="text-4xl font-display font-bold mb-8 text-purple-600 text-center tracking-tight">Terms & Conditions</h1>
         <div className="max-w-3xl mx-auto text-gray-700 text-base space-y-4 font-body">
           <h2 className="text-2xl font-heading font-semibold mb-2">1. Acceptance of Terms</h2>

@@ -8,7 +8,7 @@ export default function HelpPage() {
   return (
     <>
       <MainNav />
-      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#FEF7ED]" style={{ marginTop: '0px' }}>
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-white" style={{ marginTop: '0px' }}>
         <h1 className="text-4xl font-display font-bold mb-8 text-purple-600 text-center tracking-tight">Help Center</h1>
         <div className="max-w-2xl w-full space-y-6 mb-16">
           <div className="group transition-all duration-300">

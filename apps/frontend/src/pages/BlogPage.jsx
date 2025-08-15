@@ -51,7 +51,7 @@ export default function BlogPage() {
   return (
     <>
       <MainNav />
-      <div style={{ padding: 0 }} className="bg-[#FEF7ED]">
+      <div style={{ padding: 0 }} className="bg-white">
         {/* Hero Image with Overlay - now auto-slides */}
         <div className="relative w-full h-[420px] md:h-[600px] flex items-center justify-center fade-in-up overflow-hidden">
           <img src={heroImages[heroIdx]} alt="Blog Hero" className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-in-out" />

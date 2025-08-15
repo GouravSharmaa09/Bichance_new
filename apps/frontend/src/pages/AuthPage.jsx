@@ -124,7 +124,7 @@ const AuthPage = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Back Arrow */}
-      <div className="absolute top-16 left-6 z-50">
+      <div className="absolute top-12 left-6 z-50">
         <button
           onClick={() => navigate(-1)}
           className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300"
